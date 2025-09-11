@@ -1,0 +1,311 @@
+1. Prin ce tranzitie de stare va trece un proces cand apeleaza sem_wait si in ce conditii?
+	R: Un proces va trece in starea de wait daca contorul semaforului este mai mic ca 0, iar apoi va reveni in starea de ready cand contorul semaforului creste cu sem_post.
+
+2. Considerand ca dimensiunea unui bloc e B si dimensiunea unei adrese este A, cate blocuri de date sunt adresate de indirectarea dubla a unui i-nod?
+
+	R: Bloc - ______ B bytes
+	   Adresa -   __ A bytes
+	   Adresare directa: 12 blocuri de date
+	   Indirectarea directa: B/A blocuri de date
+	   Indirectarea dubla: (B/A)^2 blocuri de date
+	   Indirectarea tripla: (B/A)^3 blocuri de date
+	   => In total: (B/A)^3 + (B/A)^2 + (B/A) + 12
+
+3. Ce puteti face ca programator pentru a preveni deadlock?
+
+	R: Trebuie impusa o regula de blocare/accesare a resurselor care se respecta in intregimea programului. Astfel eliminam circular wait.
+	Deadlock apare cand se indeplinesc conditiile:
+		- Excludere mutuala
+		- Detinere si asteptare
+		- Fara preemptie
+		- Asteptare circulara
+
+4. Comanda awk care afiseaza suma penultimului camp al tuturor linilor.
+	
+	R: awk '{sum += $(NF-1)} END{print sum}' filename
+
+5. Cand ati incarca in memorie paginile unui program care tocmai este pornit?
+
+	R: As incarca folosind principiul vecinatatii, adica nu as incarca decat ceea ce se foloseste la pornit plus parti adiacente care au probabilitate mare de a fi folosite.
+
+6. Dati un avantaj si un dezavantaj al incarcarii tuturor paginilor unui program la pornirea procesului in comparatie cu incarcarea lor doar cand sunt necesare.
+
+	R: Un avantaj ar fi rularea rapida a procesului odata incarcat complet in memorie, iar un dezavantaj este umplerea memoriei si timpul mare de incarcare.
+
+7. Dati 3 expresii regulare care accepta orice numar ne-negativ multiplu de 5.
+
+	R: grep -E '\b(0|5|[1-9][0-9]*[05])\b' filename
+	   grep -Ei '\b(0|5|[1-9][0-9]*[05])\b' filename
+	   sed -n 's/.*\b\([0-9]\+[05]\)\b.*/\1/p' filename
+
+8. Dati 5 comenzi grep care afiseaza toate liniile dintr-un fisier care contin litera "a" mare sau mic.
+
+	R: grep -E '[aA]' filename
+	   grep '[aA]' filename
+	   grep -Ei '[a]' filename
+	   grep -i '[a]' filename
+	   grep -i 'a' filename
+	   grep -i '[a]\+' filename
+	   grep -Ev '[^Aa]' filename
+	   grep -Evi '[^a]' filename
+
+9. Scrieti doua comenzi sed care afiseaza dintr-un fisier doar liniile care nu contin cifra 7.
+
+	R: sed -n 's/.*[^7].*/\1/p' filename
+	   sed -n 's/^.*[^7].*$/\1/p' filename
+	   sed '/7/d' filename
+
+10. Cum puteti redirecta in linia de comanda iesirea de eroare prin pipe inspre alt program?
+
+	R: Folosind 2>&1 | filename
+
+11. Desenati ierarhia proceselor create de codul, incluzand parintele:
+	for(i=0; i<3; i++){
+		fork();
+		execlp("ls", "ls", "/", NULL);
+	}
+
+	R: Codul dat creeaza un copil si atat parintele cat si copilul vor executa execlp si apelul dat este corect, deci programul initial se opreste imediat. Ierarhie:
+	P -> C
+
+12. Scrieti un script shell care afiseaza toate argumentele din linia de comanda fara a folosi FOR
+	
+	R: N=1
+	   while [ $N -lt $# ]; do
+	       echo ${!N}
+		   N=$((N+1))
+	   done
+	Se foloseste dereferentiere pentru N si apoi se pun { } pentru a lua argumentul cu acel numar.
+	La evaluarea expresiilor se foloseste $(()) sau 'expr a+b'
+
+	#!/bin/bash
+	echo "$@"
+
+13. Adaugati codul C pentru ca fisierul b.txt sa fie suprascris cu fisierul a.txt din instructiunea de mai jos:
+	execlp("cat", "cat", "a.txt", NULL);
+
+	R:
+	int fd = open("b.txt", O_WRONLY | O_CREAT | O_TRUNC, 0600);
+	dup2(fd, 1);
+	execlp("cat", "cat", "a.txt", NULL);
+
+	O_CREAT creeaza fisierul daca nu exista deja
+	O_TRUNC trunchiaza fisierul (sterge continutul si scrie de la inceputul fisierului)
+
+14. De ce nu e recomandat sa comunicati bidirectional printr-un singur FIFO?
+
+	R: Nu e recomandat deoarece fifo-ul este unidirectional prin design, se creeaza confuzie intre care proces transmite date si care le primeste, se poate intampla ca acelasi proces sa transmita si sa isi citeasca propriile date, iar sincronizarea este foarte greoaie si imprevizibila in comunicare bidirectionala printr-un singur fifo.
+
+15. Care e efectul apelului pthread_barrier_wait pentru o bariera initializata cu 1?
+
+	R: O bariera initializata cu 1 nu va avea niciun efect in sincronizarea thread-urilor, deoarece fiecare thread care prinde bariera va fi eliberat imediat, conditia barierei fiind deja indeplinita.
+	
+	!Chiar daca bariera e initializata cu 1, fiecare thread va trece prin ea si va fi imediat eliberat.
+
+16. Cate FIFO-uri poate deschide un proces daca nu sunt si nici nu vor fi folosite de alt proces?
+
+	R: Un proces poate deschide maxim un FIFO care nu este initializat si din cealalta parte de catre alt proces, deoarece deschiderea unui capat de FIFO este operatie blocanta pana cand celalalt capat este si el deschis. Daca se foloseste O_NONBLOCK se pot deschide atatea cat incap in limita file descriptorilor de sistem.
+
+17. Cand as folosi un proces in locul unui thread?
+
+	R: Daca ma intereseaza mai mult securitatea aplicatiei, decat compactibilitatea si resursele consumate. De asemenea, procesele pot rula pe mai multe masini.
+
+18. Ce poate face programatorul pentru a evita deadlock?
+
+	R: Poate folosi o logica de exploatare a resurselor pe care sa o pastreze in intregimea codului.
+
+19. De ce trebuie un thread sa reverifice conditia la iesirea din apelul phtread_cond_wait?
+
+	R: Un thread trebuie sa reverifice conditia deoarece iesirea din phtread_cont_wait() nu garanteaza ca conditie este inca adevarata. Din acest motiv verificarea trebuie facuta intr-un while si nu intr-un if.
+
+20. Cum se incrementeaza valoarea unui semafor?
+
+	R: Un semafor se incrementeaza prin sem_post() cu exact o unitate.
+
+21. Se poate crea un link hard spre un fisier aflat pe o alta partitie?
+
+	R: Nu, deoarece link-ul hard creeaza un nou inod pentru fisier, iar inode-urile sunt dependente de file system-ul partitiei pe care se afla. (inode-urile sunt gestionate local in cadrul fiecarui filesystem).
+
+22. Ce contine superblocul unui disc Linux?
+
+	R: Superblocul unui disc Linux contine date legate de proprietatile discului si metadate precum: tipul sistemului de fisiere (ext3, ext4), dimensiunea blocului, numar total de blocuri si inode-uri, informatii despre montare, flag-uri si erori.
+
+23. Prin ce tranzitie de stare va trece un proces cand citeste dintr-un fisier?
+
+	R: Cand un proces citeste dintr-un fisier, va trece din starea running, in starea wait. Dupa terminarea operatiei de citire este mutat in starea Ready si urmeaza sa fie pus in starea Running in functie de cum decide schedulerul.
+
+24. Care va fi efectul inlocuirii apelurilor la pthread_mutex_lock cu apeluri la pthread_rwlock_rdlock?
+
+	R: Va crea probleme , deoarece pthread_rwlock_rdlock permite mai multe threaduri sa intre in zona critica si sa citeasca din ea.
+	?
+
+25. Regex care accepta orice numar impar de cuvinte separate prin spatii, fiecare cuvant avand numar impar de litere.
+
+	R:
+
+26. Patru comenzi care afiseaza numarul de linii goale dintr-un fisier
+
+	R: grep '^$' filename | wc -l
+	   awk '/^$/' filename | wc -l
+	   sed -n '/^$/p' filename | wc -l
+	   grep -c '^$' filename
+
+27. Comanda SED care afiseaza liniile din fisier stergand spatiile cu numar impar (primul, al treilea, al cincilea, etc).
+
+	R: sed -E 's/ (.* )/\1/g' filename
+	   sed -E 's/([^ ]*) ([^ ]*) /\1 \2/g' filename
+
+	  ??
+
+28. Comanda AWK afiseaza produsul ultimului camp al liniilor impare cu numar par de campuri.
+
+	R: awk 'BEGIN{prod = 1} {if (NR %  2 == 1 && NF % 2 == 0) prod *= $(NF-1)} END{print prod}' filename 
+	Gresit
+
+
+29. Cum poate fi iesirea standard a unui proces redirectata?
+
+	R: cu > (overwrite), cu >> (append), cu pipe, cu tee (trimite atat catre consola, cat si catre fisier)
+
+30. 3 Conditii shell care verifica existenta unui fisier.
+
+	R: if [ -e "$file" ]
+	   if test -e "$file"
+	   if [[ -e "$file" ]]; then
+	   		echo "Exist"
+	   fi
+
+	   if ! ls $file 2>&1 | grep -Eq "No such file"; then
+	   if [ $(ls $file 2>&1 | grep -Ec "No such file!") -eq 0 ]; then
+
+		
+31. Adauga codul C pentru ca instructiunea de mai jos sa nu se blocheze asteptand intrarea standard.
+
+	R: 
+	int x = dup(0);
+	int fd = open("
+	dup2(0, );
+	execlp("cat", "cat",  NULL);
+	???
+
+
+32. Functiile popen, pclose in cazul in care output-ul comenzii e citit in cod C
+
+	R: popen - creeaza pipe, fork proces -> copilul inchide read end pipe, parinte inchide write end pipe
+	   pclose - inchide file pointer, asteapta proces copil, returneaza exit status
+
+33. Cate pipe-uri de citire se pot deschide?
+
+	R: putem verifica limita numarului de pipe-uri de citire prin ulimit -n
+
+34. Cand as folosi un FIFO in locul unui pipe?
+
+	R: Atunci cand folosesc comunicare intre procese care nu au un predecesor comun (procese care provin din programe distincte). De asemenea FIFO-urile sunt persistente si pot fi accesate oricand de orice proces de pe masina.
+
+35. Ce este o sectiune critica?
+
+	R: O sectiune critica este o zona de cod din program in care mai multe thread-uri sau procese acceseaza sau modifica o resursa comuna. Daca nu protejam corespunzator aceasta sectiune critica se poate produce race condition.
+
+36. Cand as folosi mutex in locul unui rwlock?
+
+	R: Atunci cand numarul operatiilor de citire nu este semnificativ mai mare decat numarul operatiilor de scriere.
+
+37. Care este efectul inlocuirii pthread_mutex_lock cu sem_wait?
+
+	R: Daca semaforul foloseste contor 1, atunci efectul este identic, insa daca semaforul foloseste un contor > 1 pot exista probleme daca sectiunea critica necesita acces secvential la o resursa comuna.
+
+38. Ce face pthread_cond_wait cu mutex-ul primit ca argument?
+
+	R: Cand un semnal este trimis, pthread_cond_wait asteapta pana cand mutexul e liber, il blocheaza si continua executia.
+
+39. Cum se realizeaza solutia problemei producator-consumator?
+
+	R: 
+	n = size of buffer
+	p = next index to insert obj
+	c = next index to take obj
+	consumer: while !empty(p==c)
+	producer: produce while not full ((p+1)%n==c)
+
+
+40. Prin ce tranzitie de stare trece un proces cand se apeleaza pthread_cond_wait?
+
+	R: Procesul elibereaza mutex-ul, si ramane in starea blocked pana cand alt proces semnaleaza conditia cu pthread_cond_signal. Dupa ce conditia e semnalata, procesul este trezit, ia mutex-ul si continua executia.
+
+41. Ce contine un fisier de tip director?
+
+	R: O lista de nume si inode-uri corespunzatoare.
+
+42. Care e diferenta dintre un link symbolic si unul hard?
+
+	R: Un hard link este un inode individual care referentiaza aceleasi date ca altul, iar un symbolic link referenteaza inode-ul fisierului.
+
+43. Regex care accepta orice linie care are cel putin 3 vocale
+
+	R: 
+
+44. Care este principiul vecinatatii in page loading?
+
+	R: Exista o probabilitate crescuta ca paginile vecine celor folosite in prezent sa fie folosite curand.
+
+45. Planifica taskurile urm a.i. suma decalajului este minima:
+	A/5/7, B/2/4, C/4/13, D/3/8
+	B A    D  C
+	--+++++---++++
+	 2    7  10  14
+	 Decalaje = 2 la D + 1 la C = 3
+
+46. Care este riscul urmatorului program?
+	pthread_mutex_t m[2];
+	void* f(void* p){
+		int id = (int)p;
+		pthread_mutex_t* first = &m[id % 2];
+		pthread_mutex_t* second = &m[(id+1) % 2];
+
+		pthread_mutex_lock(first);
+		pthread_mutex_lock(second);
+		...
+		pthread_mutex_unlock(first);
+		pthread_mutex_unlock(second);
+	}
+	R:
+
+47. Un avantaj si dezavantaj la First FIt fata de Worst Fit?
+	
+	R:
+
+48. Shell script care calculeaza media liniilor in toate fisierele .txt in directorul curent.
+	R:
+	#!/bin/bash
+
+	nrFiles=0
+	nrLines=0
+	totalNrLines=0
+
+	for f in *.txt; do
+		nrFiles=(($nrFiles + 1))
+
+
+49. Scrie un shell unix care calculeaza media de fisiere .txt per director din directorul curent si subdirectoarele lui.
+	R:
+
+50. Schell script care verifica daca un fisier efista si utilizatorul are acces asupra lui
+
+	R: 	if [[ -e "$file" && ( -r "$file" || -w "$file" || -x "$file" ) ]]; then
+		echo "Gasit"
+		else
+		echo "Nu"
+		fi
+
+51. Schell script care afiseaza numele fisierelor .txt in directorul curent care contin cuvatul "cat".
+
+	R: for f in 'ls'; do
+		if [[ -f "$f" && "$f" == *cat*.txt ]]; then
+			echo "$f"
+		fi
+		done
+
+52. Regex pentru a gasi linii care contin a, dar nu contin b.
+
+	R: "^[^b]*a+[^b]*$"
+

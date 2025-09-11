@@ -1,0 +1,17 @@
+#!/bin/bash
+
+nrFiles=0
+nrLines=0
+totalNrLines=0
+
+for f in `ls | grep -E ".*\.txt$"`; do
+	nrFiles=$(($nrFiles + 1))
+	nrLines=`cat $f | wc -l`
+	totalNrLines=$(($nrLines + $totalNrLines))
+done
+	if [ $nrFiles -gt 0 ]; then
+	result=$(($totalNrLines / $nrFiles))
+	echo "Average is $result"
+	else
+		echo "Nu exista fisiere .txt"
+	fi

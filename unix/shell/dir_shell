@@ -1,0 +1,14 @@
+#!/bin/bash
+nr_txt=0
+nr_dir=0
+for f in $(find 'pwd' -type f); do
+	if [ $f == *.txt ]; then
+		echo $f is a txt file
+		nr_txt='expr $nr_txt + 1'
+	fi
+done
+
+for d in $(find 'pwd' -type d); do
+	echo $d is a dir
+	nr_dir='expr $nr_dir + 1'
+done
