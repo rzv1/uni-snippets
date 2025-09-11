@@ -1,0 +1,5 @@
+Nod 1: 0
+Nod 2: inf
+Nod 3: 4
+Nod 4: 1
+Nod 5: 2
