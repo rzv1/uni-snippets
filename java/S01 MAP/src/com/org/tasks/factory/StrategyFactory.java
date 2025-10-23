@@ -1,6 +1,6 @@
 package com.org.tasks.factory;
 
-public enum Strategy {
+public enum StrategyFactory {
     LIFO,
     FIFO
 }

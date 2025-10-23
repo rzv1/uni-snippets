@@ -4,8 +4,10 @@ import com.org.problems.natatie.domain.Assign;
 import com.org.problems.natatie.io.NatatieInput;
 import com.org.tasks.sorting.SortingTask;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 
 public class BinarySearchStrategy implements OptimisationStrategy {
@@ -33,29 +35,47 @@ public class BinarySearchStrategy implements OptimisationStrategy {
 
         int[] idxV = idxSort(in.v());
         int[] idxNeed = idxSort(need);
+
+        TreeMap<Integer, ArrayDeque<Integer>> bySt = new TreeMap<>();
+
         int i = N - 1;
+        int lastSt = Integer.MAX_VALUE;
+
+        if(out != null)
+            out.clear();
 
         for(int k = M - 1; k >= 0; k--) {
             double req = need[idxNeed[k]];
-            while (i >= 0 && in.v()[idxV[i]] < req)
-                i--;
-            if (i < 0)
+            while (i >= 0 && in.v()[idxV[i]] >= req){
+                int d = idxV[i--];
+                bySt.computeIfAbsent(in.st()[d], _x -> new ArrayDeque<>()).addLast(d);
+            }
+            var e = bySt.floorEntry(lastSt);
+            if(e == null)
                 return false;
-            i--;
+
+            int stChosen = e.getKey();
+            int duck = e.getValue().removeFirst();
+            if(e.getValue().isEmpty())
+                bySt.remove(stChosen);
+
             if (out != null) {
-                int duck = idxV[i], lane = idxNeed[k];
+                int lane = idxNeed[k];
                 double t = 2.0 * in.dist()[lane] / in.v()[duck];
                 out.add(new Assign(duck + 1, lane + 1, t));
             }
+            lastSt = stChosen;
         }
         if (out != null){
-            for(int p = 0; p < M - 1; p++)
-                for(int j = i + 1; j < M; j++)
-                    if(in.st()[out.get(p).getDuckId()] > in.st()[out.get(j).getDuckId()]){
-                        var tmp = out.get(i);
-                        out.set(i, out.get(j));
-                        out.set(j, tmp);
-                    }
+            for (int a = 1; a < out.size(); a++) {
+                Assign key = out.get(a);
+                int b = a - 1;
+                while (b >= 0 && out.get(b).getLaneId() > key.getLaneId()) {
+                    out.set(b+1, out.get(b));
+                    b--;
+                }
+                out.set(b+1, key);
+            }
         }
         return true;
     }

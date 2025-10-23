@@ -1,4 +1,6 @@
 package com.org.tasks.sorting;
 
-public class Strategy {
+public enum Strategy {
+    bubble,
+    quick
 }

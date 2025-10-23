@@ -20,7 +20,7 @@ public class Main {
             var in = new NatatieInput(N, M, reader.getVect(N), reader.getVect(N), reader.getVect(M));
             var solver = new BinarySearchStrategy();
             var runner = new PrinterTaskRunner(new StrategyTaskRunner(StrategyFactory.LIFO), out);
-            var natatie = new NatatieTask("1", "Natatie", in, solver, runner);
+            var natatie = new NatatieTask("1", "Natatie", in, solver, runner, out);
             natatie.execute();
         }
     }

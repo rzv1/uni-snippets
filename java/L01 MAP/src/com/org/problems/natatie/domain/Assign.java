@@ -4,4 +4,7 @@ public record Assign(int duckId, int laneId, double time) {
     public int getDuckId(){
     return duckId;
     }
+    public int getLaneId(){
+        return laneId;
+    }
 }
