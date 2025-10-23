@@ -7,8 +7,8 @@ import java.util.List;
 public class Card {
     private String group;
     private int id;
-    private String numeCard;
-    private List<Duck> membri;
+    private final String numeCard;
+    private final List<Duck> membri;
 
     public Card(String group, int id, String numeCard, List<Duck> membri) {
         this.group = group;

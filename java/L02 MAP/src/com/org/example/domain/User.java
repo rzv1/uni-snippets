@@ -15,6 +15,11 @@ public abstract class User {
 
     public User() {}
 
+    @Override
+    public String toString() {
+        return Long.toString(id) + " | " + getType();
+    }
+
     public Long getId() {
         return id;
     }

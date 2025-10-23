@@ -4,22 +4,25 @@ import java.util.Set;
 import com.org.example.entities.Card;
 
 public class Duck extends User{
-    private final Set<String> VALID_TYPES = Set.of("FLYING", "SWIMMING", "FLYING_AND_SWIMMING");
     private String type;
-    private double viteza;
-    private double rezistenta;
+    private Double viteza;
+    private Double rezistenta;
+    private Long cardId;
     private Card card;
 
-    public Duck(String password, String email, String username, long id, String type, double viteza, double rezistenta, Card card) {
+    public Duck(Long id, String password, String email, String username, String type, Double viteza, Double rezistenta, Long cardId) {
         super(password, email, username, id);
         this.type = type;
         this.viteza = viteza;
         this.rezistenta = rezistenta;
-        this.card = card;
-        if (!VALID_TYPES.contains(type))
-            throw new IllegalArgumentException("Invalid type: " + type);
+        this.cardId = cardId;
     }
     public Duck(){}
+
+    @Override
+    public String toString() {
+        return super.toString() + " | " + type + " | " + viteza + " | " + rezistenta;
+    }
 
     public String getTip() {
         return type;
@@ -33,7 +36,7 @@ public class Duck extends User{
         return viteza;
     }
 
-    public void setViteza(double viteza) {
+    public void setViteza(Double viteza) {
         this.viteza = viteza;
     }
 
@@ -41,7 +44,7 @@ public class Duck extends User{
         return rezistenta;
     }
 
-    public void setRezistenta(double rezistenta) {
+    public void setRezistenta(Double rezistenta) {
         this.rezistenta = rezistenta;
     }
 
@@ -49,9 +52,37 @@ public class Duck extends User{
         return card;
     }
 
+    public Long getCardId() {
+        return cardId;
+    }
+
+    public void setCardId(Long cardId) {
+        this.cardId = cardId;
+    }
+
     @Override
     public String getType() {
         return "DUCK";
+    }
+
+    @Override
+    void login() {
+
+    }
+
+    @Override
+    void logout() {
+
+    }
+
+    @Override
+    void sendMessage() {
+
+    }
+
+    @Override
+    void receiveMessage() {
+
     }
 
     public void setCard(Card card) {

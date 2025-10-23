@@ -13,20 +13,23 @@ import java.util.Scanner;
 
 public class FriendshipRepo implements Repo<Long, Friendship>{
     private final List<Friendship> fs = new ArrayList<>();
-    private final Parser<Friendship> parser = new FriendshipParser();
+    private final Parser<FriendshipDTO> parser = new FriendshipParser();
+    private final UserRepo userRepo;
     private final String filePath;
 
-    public FriendshipRepo(String file) throws FileNotFoundException {
+    public FriendshipRepo(String file, UserRepo userRepo) throws FileNotFoundException, UserNotFoundException {
         filePath = file;
+        this.userRepo = userRepo;
         readFromFile();
     }
 
-    private void readFromFile() throws FileNotFoundException {
+    private void readFromFile() throws FileNotFoundException, UserNotFoundException {
         Scanner sc = new Scanner(new File(filePath));
 
         while(sc.hasNextLine()){
             String line = sc.nextLine();
-            add((Friendship) parser.parseStringToObject(line));
+            FriendshipDTO dto = parser.parseStringToObject(line);
+            add(new Friendship(dto.id(), userRepo.find(dto.user1Id()), userRepo.find(dto.user2Id())));
         }
     }
 
@@ -34,7 +37,7 @@ public class FriendshipRepo implements Repo<Long, Friendship>{
         PrintWriter pw = new PrintWriter(new File(filePath));
 
         for(Friendship f : fs){
-            pw.println(parser.parseObjectToString(f));
+            pw.println(parser.parseObjectToString(new FriendshipDTO(f.getId(), f.getUser1().getId(), f.getUser2().getId())));
         }
         pw.close();
     }
@@ -53,13 +56,15 @@ public class FriendshipRepo implements Repo<Long, Friendship>{
     }
 
     @Override
-    public void remove(Long id) throws UserNotFoundException, FriendshipNotFoundException {
+    public void remove(Long id) throws UserNotFoundException, FriendshipNotFoundException, FileNotFoundException {
         if(!fs.removeIf(f -> f.getId().equals(id)))
             throw new FriendshipNotFoundException(id);
+        saveToFile();
     }
 
     @Override
-    public void add(Friendship entity) {
+    public void add(Friendship entity) throws FileNotFoundException {
         fs.add(entity);
+        saveToFile();
     }
 }

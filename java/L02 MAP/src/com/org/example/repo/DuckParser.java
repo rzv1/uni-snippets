@@ -9,7 +9,7 @@ public class DuckParser extends UserParser<Duck>{
     @Override
     public String parseObjectToString(Duck d) {
         return "DUCK;" + super.userToString(d) + ";" + d.getTip() + ";" + d.getViteza() + ";"
-                + d.getRezistenta() + ";" + d.getCard().getId();
+                + d.getRezistenta() + ";" + d.getCardId();
     }
 
     @Override
@@ -22,6 +22,7 @@ public class DuckParser extends UserParser<Duck>{
         d.setTip(parts[5]);
         d.setViteza(Double.parseDouble(parts[6]));
         d.setRezistenta(Double.parseDouble(parts[7]));
+        d.setCardId(Long.parseLong(parts[8]));
         return d;
     }
 }

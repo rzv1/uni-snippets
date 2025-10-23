@@ -1,21 +1,21 @@
 package com.org.example.repo;
 
-import com.org.example.entities.Friendship;
+import com.org.example.repo.FriendshipDTO;
 
-public class FriendshipParser implements Parser<Friendship>{
+public class FriendshipParser implements Parser<FriendshipDTO>{
 
     @Override
-    public String parseObjectToString(Friendship f) {
-        return f.getId() + ";" + f.getUser1().getId() + ";" + f.getUser2().getId();
+    public String parseObjectToString(FriendshipDTO f) {
+        return f.id() + ";" + f.user1Id() + ";" + f.user2Id();
     }
 
     @Override
-    public Friendship parseStringToObject(String line) {
+    public FriendshipDTO parseStringToObject(String line) {
         String[] parts = line.split(";");
         Long fId = Long.parseLong(parts[0]);
         Long id1 = Long.parseLong(parts[1]);
         Long id2 = Long.parseLong(parts[2]);
 
-
+        return new FriendshipDTO(fId, id1, id2);
     }
 }

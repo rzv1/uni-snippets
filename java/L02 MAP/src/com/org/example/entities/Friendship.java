@@ -9,11 +9,17 @@ public class Friendship {
     private User user1;
     private User user2;
 
-    public Friendship(User user1, User user2) {
+    public Friendship(Long id, User user1, User user2) {
+        this.id = id;
         this.user1 = user1;
         this.user2 = user2;
     }
     public Friendship(){}
+
+    @Override
+    public String toString() {
+        return id + " | User " + user1.getId() + " este prieten cu user " + user2.getId();
+    }
 
     public Long getId() {
         return id;

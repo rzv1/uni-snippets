@@ -1,22 +1,30 @@
 package com.org.example.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Persoana extends User{
+public class Person extends User{
     private String nume;
     private String prenume;
-    private LocalDateTime dataNasterii;
+    private LocalDate dataNasterii;
     private String ocupatie;
+    private Long empatie;
 
-    public Persoana(String password, String email, String username, long id, String nume, String prenume, LocalDateTime dataNasterii, String ocupatie) {
+    public Person(Long id, String password, String email, String username, String nume, String prenume, LocalDate dataNasterii, String ocupatie, Long empatie) {
         super(password, email, username, id);
         this.nume = nume;
         this.prenume = prenume;
         this.dataNasterii = dataNasterii;
         this.ocupatie = ocupatie;
+        this.empatie = empatie;
     }
 
-    public Persoana(){}
+    public Person(){}
+
+    @Override
+    public String toString(){
+        return super.toString() + " | " + nume + " | " + dataNasterii + " | " + ocupatie;
+    }
 
     public String getNume() {
         return nume;
@@ -26,7 +34,7 @@ public class Persoana extends User{
         return prenume;
     }
 
-    public LocalDateTime getDataNasterii() {
+    public LocalDate getDataNasterii() {
         return dataNasterii;
     }
 
@@ -38,7 +46,7 @@ public class Persoana extends User{
         this.ocupatie = ocupatie;
     }
 
-    public void setDataNasterii(LocalDateTime dataNasterii) {
+    public void setDataNasterii(LocalDate dataNasterii) {
         this.dataNasterii = dataNasterii;
     }
 
@@ -50,9 +58,37 @@ public class Persoana extends User{
         this.nume = nume;
     }
 
+    public Long getNivelEmpatie() {
+        return empatie;
+    }
+
+    public void setNivelEmpatie(Long empatie) {
+        this.empatie = empatie;
+    }
+
     @Override
     public String getType(){
         return "PERSON";
+    }
+
+    @Override
+    void login() {
+
+    }
+
+    @Override
+    void logout() {
+
+    }
+
+    @Override
+    void sendMessage() {
+
+    }
+
+    @Override
+    void receiveMessage() {
+
     }
 
     public void createEvent(String description){

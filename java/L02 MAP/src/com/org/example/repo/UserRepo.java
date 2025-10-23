@@ -54,13 +54,15 @@ public class UserRepo implements Repo<Long, User>{
     }
 
     @Override
-    public void remove(Long id) throws UserNotFoundException {
+    public void remove(Long id) throws UserNotFoundException, FileNotFoundException {
         if (!users.removeIf(u -> u.getId().equals(id)))
             throw new UserNotFoundException(id);
+        saveToFile();
     }
 
     @Override
-    public void add(User user) {
+    public void add(User user) throws FileNotFoundException {
         users.add(user);
+        saveToFile();
     }
 }
