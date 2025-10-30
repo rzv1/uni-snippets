@@ -1,6 +1,6 @@
 package com.org.example.repo;
 
-import com.org.example.domain.User;
+
 import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.UserNotFoundException;
 

@@ -1,5 +1,7 @@
 package com.org.example;
 
+import com.org.example.repo.CardRepo;
+import com.org.example.repo.EventRepo;
 import com.org.example.repo.FriendshipRepo;
 import com.org.example.repo.UserRepo;
 import com.org.example.service.Controller;
@@ -10,9 +12,16 @@ import com.org.example.ui.UI;
 public class Main {
     public static void main(String[] args){
         try {
+
             UserRepo uRepo = new UserRepo("data/user");
+
             FriendshipRepo fRepo = new FriendshipRepo("data/friendship", uRepo);
-            Controller ctrl = new Controller(fRepo, uRepo);
+
+            CardRepo cRepo = new CardRepo("data/card", uRepo);
+
+            EventRepo eRepo = new EventRepo("data/event", uRepo);
+
+            Controller ctrl = new Controller(fRepo, uRepo, cRepo, eRepo);
             UI ui = new UI(ctrl);
             ui.run();
         }

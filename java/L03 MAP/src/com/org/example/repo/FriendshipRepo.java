@@ -29,16 +29,16 @@ public class FriendshipRepo implements Repo<Long, Friendship>{
         while(sc.hasNextLine()){
             String line = sc.nextLine();
             FriendshipDTO dto = parser.parseStringToObject(line);
-            add(new Friendship(dto.id(), userRepo.find(dto.user1Id()), userRepo.find(dto.user2Id())));
+            fs.add(new Friendship(dto.id(), userRepo.find(dto.user1Id()), userRepo.find(dto.user2Id())));
         }
     }
 
     private void saveToFile() throws FileNotFoundException {
-        PrintWriter pw = new PrintWriter(new File(filePath));
+        PrintWriter pw = new PrintWriter(filePath);
 
-        for(Friendship f : fs){
-            pw.println(parser.parseObjectToString(new FriendshipDTO(f.getId(), f.getUser1().getId(), f.getUser2().getId())));
-        }
+//        for(Friendship f : fs){
+//            pw.println(parser.parseObjectToString(new FriendshipDTO(f.getId(), f.getUser1().getId(), f.getUser2().getId())));
+//        }
         fs.forEach(f -> pw.println(parser.parseObjectToString(
                 new FriendshipDTO(f.getId(), f.getUser1().getId(), f.getUser2().getId()))
         ));

@@ -1,28 +1,36 @@
 package com.org.example.service;
 
+import com.org.example.domain.Duck;
 import com.org.example.domain.User;
+import com.org.example.entities.Card;
+import com.org.example.entities.Event;
 import com.org.example.entities.Friendship;
 import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.UserNotFoundException;
+import com.org.example.repo.CardRepo;
+import com.org.example.repo.EventRepo;
 import com.org.example.repo.FriendshipRepo;
 import com.org.example.repo.UserRepo;
+import com.org.example.validator.CardValidator;
+import com.org.example.validator.DuckValidator;
+import com.org.example.validator.EventValidator;
+import com.org.example.validator.PersonValidator;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class Controller {
-    private final FriendshipRepo fRepo;
-    private final UserRepo uRepo;
     private final UserService userService;
     private final FriendshipService fService;
+    private final CardService cService;
+    private final EventService eService;
 
-    public Controller(FriendshipRepo fr, UserRepo ur){
-        this.fRepo = fr;
-        this.uRepo = ur;
-        userService = new UserService(uRepo);
-        fService = new FriendshipService(fRepo, uRepo);
+    public Controller(FriendshipRepo fr, UserRepo ur, CardRepo cr, EventRepo er){
+        userService = new UserService(ur, new PersonValidator(), new DuckValidator());
+        fService = new FriendshipService(fr, ur);
+        cService = new CardService(ur, cr, new CardValidator());
+        eService = new EventService(ur, er, new EventValidator());
     }
 
     public List<User> getAllUsers() {
@@ -33,12 +41,16 @@ public class Controller {
         return fService.getAll();
     }
 
+    public List<Card<Duck>> getAllCard() { return cService.getAll(); }
+
+    public List<Event> getAllEvents() { return eService.getAll(); }
+
     public void addPerson(Long id, String username, String email, String password, String lastName, String firstName, LocalDate birthday, String job, Long empathy) throws FileNotFoundException {
         userService.addPerson(id, username, email, password, lastName, firstName, birthday, job, empathy);
     }
 
-    public void addDuck(Long id, String username, String email, String password, String type, Double speed, Double res, Long cardId) throws FileNotFoundException {
-        userService.addDuck(id, username, email, password, type, speed, res, cardId);
+    public void addDuck(Long id, String username, String email, String password, String type, Double speed, Double res) throws FileNotFoundException {
+        userService.addDuck(id, username, email, password, type, speed, res);
     }
 
     public void addFriendship(Long id, Long user1Id, Long user2Id) throws UserNotFoundException, FileNotFoundException {
@@ -51,6 +63,22 @@ public class Controller {
 
     public void removeFriendship(Long id) throws UserNotFoundException, FileNotFoundException, FriendshipNotFoundException {
         fService.remove(id);
+    }
+
+    public void addCard(Long id, String name, String[] ids) throws FileNotFoundException {
+        cService.add(id, name, ids);
+    }
+
+    public void removeCard(Long id) throws FileNotFoundException, FriendshipNotFoundException {
+        cService.remove(id);
+    }
+
+    public void addEvent(Long id, String name, String[] ids) throws FileNotFoundException {
+        eService.add(id, name, ids);
+    }
+
+    public void removeEvent(Long id) throws FileNotFoundException, FriendshipNotFoundException {
+        eService.remove(id);
     }
 
     public String communitiesNumber() {

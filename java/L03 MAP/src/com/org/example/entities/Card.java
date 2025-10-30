@@ -3,26 +3,32 @@ package com.org.example.entities;
 import com.org.example.domain.Duck;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Card {
-    private String group;
-    private int id;
+public class Card<T extends Duck> {
+    private final Long id;
     private final String numeCard;
-    private final List<Duck> membri;
+    private final List<T> membri;
 
-    public Card(String group, int id, String numeCard, List<Duck> membri) {
-        this.group = group;
+    public Card( Long id, String numeCard, List<T> membri) {
         this.id = id;
         this.numeCard = numeCard;
         this.membri = membri;
     }
 
-    public int getId() {
-        return id;
-    }
+    public Long getId() { return id; }
 
     public String getNumeCard() {
         return numeCard;
+    }
+
+    public List<T> getMembri() { return membri; }
+
+    @Override
+    public String toString() {
+        return "Id = " + id + " | " + "name = " + numeCard + " | " + "duckIds = " +
+                membri.stream().map(x -> String.valueOf(x.getId()))
+                        .collect(Collectors.joining(", "));
     }
 
     public double getPerformantaMedie(){

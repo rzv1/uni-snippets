@@ -27,7 +27,7 @@ public class UserRepo implements Repo<Long, User>{
             String line = sc.nextLine();
             String type = line.split(";")[0];
             Parser<? extends User> parser = ParserFactory.getParser(type);
-            add(parser.parseStringToObject(line));
+            users.add(parser.parseStringToObject(line));
         }
     }
     private void saveToFile() throws FileNotFoundException {

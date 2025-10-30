@@ -2,12 +2,10 @@ package com.org.example.ui;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
-import com.org.example.domain.User;
-import com.org.example.entities.Friendship;
+import java.time.format.DateTimeFormatter;
+
+import java.util.Scanner;
 import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.InvalidUsageException;
 import com.org.example.exceptions.UserNotFoundException;
@@ -34,7 +32,11 @@ public class UI {
                     case "3" -> handleAddFriendship();
                     case "4" -> handleRemoveFriendship();
                     case "5" -> handleCommunitiesNumber();
-                    case "6" -> running = false;
+                    case "6" -> handleAddCard();
+                    case "7" -> handleRemoveCard();
+                    case "8" -> handleAddEvent();
+                    case "9" -> handleRemoveEvent();
+                    case "10" -> running = false;
                     default -> throw new InvalidUsageException();
                 }
                 System.out.println("Operation successful.");
@@ -52,7 +54,11 @@ public class UI {
         System.out.println("3) Add Friendship");
         System.out.println("4) Remove Friendship");
         System.out.println("5) Number of communities");
-        System.out.println("6) Exit");
+        System.out.println("6) Add Card");
+        System.out.println("7) Remove Card");
+        System.out.println("8) Add Event");
+        System.out.println("9) Remove Event");
+        System.out.println("10) Exit");
         System.out.print("Select: ");
     }
 
@@ -64,6 +70,16 @@ public class UI {
     private void printFriendships() {
         System.out.println("\n--Friendships--");
         controller.getAllFriendships().forEach(System.out::println);
+    }
+
+    private void printCard() {
+        System.out.println("\n--Card--");
+        controller.getAllCard().forEach(System.out::println);
+    }
+
+    private void printEvents() {
+        System.out.println("\n--Events--");
+        controller.getAllEvents().forEach(System.out::println);
     }
 
     private void handleAddUser() throws FileNotFoundException {
@@ -99,15 +115,13 @@ public class UI {
     }
 
     private void handleAddDuck(Long id, String username, String email, String password) throws FileNotFoundException {
-        System.out.print("Type: ");
+        System.out.print("Type (SWIMMING, FLYING, FLYING_AND_SWIMMING): ");
         String type = scanner.nextLine();
         System.out.print("Speed: ");
         Double speed = Double.parseDouble(scanner.nextLine());
         System.out.print("Resistance: ");
         Double res = Double.parseDouble(scanner.nextLine());
-        System.out.print("Card id: ");
-        Long cardId = Long.parseLong(scanner.nextLine());
-        controller.addDuck(id, username, email, password, type, speed, res, cardId);
+        controller.addDuck(id, username, email, password, type, speed, res);
     }
 
     private void handleRemoveUser() throws UserNotFoundException, FileNotFoundException {
@@ -139,4 +153,41 @@ public class UI {
         System.out.println(controller.communitiesNumber());
     }
 
+    private void handleAddCard() throws FileNotFoundException {
+        String[] duckIds;
+        printUsers();
+        System.out.print("Id: ");
+        Long id = Long.parseLong(scanner.nextLine());
+        System.out.print("Card name: ");
+        String name = scanner.nextLine();
+        System.out.print("Duck ids: ");
+        duckIds = scanner.nextLine().split(",");
+        controller.addCard(id, name, duckIds);
+    }
+
+    private void handleRemoveCard() throws FileNotFoundException, FriendshipNotFoundException {
+        printCard();
+        System.out.print("Id: ");
+        Long id = Long.parseLong(scanner.nextLine());
+        controller.removeCard(id);
+    }
+
+    private void handleAddEvent() throws FileNotFoundException {
+        String[] userIds;
+        printUsers();
+        System.out.print("Id: ");
+        Long id = Long.parseLong(scanner.nextLine());
+        System.out.print("Event name: ");
+        String name = scanner.nextLine();
+        System.out.print("User ids: ");
+        userIds = scanner.nextLine().split(",");
+        controller.addEvent(id, name, userIds);
+    }
+
+    private void handleRemoveEvent() throws FileNotFoundException, FriendshipNotFoundException {
+        printEvents();
+        System.out.print("Id: ");
+        Long id = Long.parseLong(scanner.nextLine());
+        controller.removeEvent(id);
+    }
 }
