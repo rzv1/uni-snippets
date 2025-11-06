@@ -12,19 +12,34 @@ adauga(E, [H|T], Cnt1, Cnt2, [H|Rez]):-
 	New_cnt1 is Cnt1 + 1,
 	adauga(E, T, New_cnt1, Cnt2, Rez).
 
+%Model de flux (i, o)
+main_liste_adauga(L, Rez):- liste_adauga(L, 0, Rez).
 
-liste_adauga([], []):-!.
+liste_adauga([], _, []):-!.
 
-liste_adauga([H1, H2|T], [H1, C|Rez]):-
-	\+ is_list(H1), is_list(H2),
-	!,
-	main_adauga(H1, H2, C),
-	liste_adauga(T, Rez).
+liste_adauga([H|T], _, [H|Rez]):-
+	number(H), !,
+	liste_adauga(T, H, Rez).
 
-liste_adauga([H1, H2|T], [H1|Rez]):-
-	\+ is_list(H1), \+ is_list(H2),
-	!,
-	liste_adauga([H2|T], Rez).
+liste_adauga([L|T], U, [R|Rez]):-
+	is_list(L), !,
+	main_adauga(U, L, R),
+	liste_adauga(T, U, Rez).
 
 
-liste_adauga([H1|_], [H1]):-!.
+
+% liste_adauga([], []):-!.
+
+% liste_adauga([H1, H2|T], [H1, C|Rez]):-
+% 	\+ is_list(H1), is_list(H2),
+% 	!,
+% 	main_adauga(H1, H2, C),
+% 	liste_adauga(T, Rez).
+
+% liste_adauga([H1, H2|T], [H1|Rez]):-
+% 	\+ is_list(H1), \+ is_list(H2),
+% 	!,
+% 	liste_adauga([H2|T], Rez).
+
+
+% liste_adauga([H1|_], [H1]):-!.

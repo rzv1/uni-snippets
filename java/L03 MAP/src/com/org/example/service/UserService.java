@@ -1,6 +1,10 @@
 package com.org.example.service;
 
 import com.org.example.domain.*;
+import com.org.example.domain.duck.Duck;
+import com.org.example.domain.duck.FlyingAndSwimmingDuck;
+import com.org.example.domain.duck.FlyingDuck;
+import com.org.example.domain.duck.SwimmingDuck;
 import com.org.example.exceptions.InvalidUsageException;
 import com.org.example.exceptions.UserNotFoundException;
 import com.org.example.repo.UserRepo;

@@ -71,26 +71,6 @@ public class Person extends User{
         return "PERSON";
     }
 
-    @Override
-    void login() {
-
-    }
-
-    @Override
-    void logout() {
-
-    }
-
-    @Override
-    void sendMessage() {
-
-    }
-
-    @Override
-    void receiveMessage() {
-
-    }
-
     public void createEvent(String description){
 
     }

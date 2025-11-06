@@ -13,10 +13,10 @@ public abstract class UserValidator implements Validator<User> {
             throw new ValidationException("Blank username.");
         if (!u.getEmail().matches(".+@.+\\..+"))
             throw new ValidationException("Invalid email.");
-        if (u.getPassword().length() < 8 || !u.getPassword().matches(".*\\d.*")
-        || !u.getPassword().matches(".*[!@#$%^&*()+,./;']+.*"))
+        if (u.getPassword().length() < 5) {
+            System.out.println(u.getPassword());
             throw new ValidationException("Weak password.");
-
+        }
         validateSpecific(u);
     }
 

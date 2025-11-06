@@ -1,7 +1,6 @@
 package com.org.example.repo;
 
 import com.org.example.domain.User;
-import com.org.example.entities.Friendship;
 
 public class ParserFactory {
     private static final DuckParser dp = new DuckParser();

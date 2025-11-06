@@ -54,9 +54,5 @@ public abstract class User {
 
     public abstract String getType();
 
-    abstract void login();
-    abstract void logout();
-    abstract void sendMessage();
-    abstract void receiveMessage();
     // lista prieteni, istoric evenimente
 }

@@ -1,8 +1,10 @@
 package com.org.example.service;
 
-import com.org.example.domain.Duck;
-import com.org.example.entities.Card;
-import com.org.example.entities.CardDTO;
+import com.org.example.domain.card.*;
+import com.org.example.domain.duck.Duck;
+import com.org.example.domain.duck.FlyingAndSwimmingDuck;
+import com.org.example.domain.duck.FlyingDuck;
+import com.org.example.domain.duck.SwimmingDuck;
 import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.UserNotFoundException;
 import com.org.example.repo.CardRepo;
@@ -28,17 +30,23 @@ public class CardService {
     public void add(Long id, String name, String[] ids) throws UserNotFoundException, FileNotFoundException {
         CardDTO c = new CardDTO(id, name, ids);
         validator.validate(c);
-        List<Duck> idx = stream(ids).map(x -> uRepo.find(Long.parseLong(x)))
+        List<? extends Duck> idx = stream(ids).map(x -> uRepo.find(Long.parseLong(x)))
                 .filter(u -> u instanceof Duck).map(u -> (Duck) u).toList();
-        idx.forEach(System.out::println);
-        cRepo.add(new Card<>(id, name, idx));
+        Long swimCount = idx.stream().filter(d -> d instanceof SwimmingDuck || d instanceof FlyingAndSwimmingDuck).count();
+        Long flyCount = idx.stream().filter(d -> d instanceof FlyingDuck || d instanceof FlyingAndSwimmingDuck).count();
+        var card = switch((swimCount != 0 ? "S" : "") + (flyCount != 0 ? "F" : "")){
+            case "SF" -> new SwimFlyersCard(id, name, (List<FlyingAndSwimmingDuck>) idx);
+            case "S" -> new SwimMastersCard(id, name, (List<SwimmingDuck>) idx);
+            default -> new SkyFlyersCard(id, name, (List<FlyingDuck>) idx);
+        };
+        cRepo.add(card);
     }
 
     public void remove(Long id) throws FileNotFoundException, FriendshipNotFoundException {
         cRepo.remove(id);
     }
 
-    public List<Card<Duck>> getAll() {
+    public List<Card<? extends Duck>> getAll() {
         return cRepo.getAll();
     }
 }

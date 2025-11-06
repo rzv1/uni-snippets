@@ -1,10 +1,10 @@
 package com.org.example.service;
 
-import com.org.example.domain.Duck;
+import com.org.example.domain.duck.Duck;
 import com.org.example.domain.User;
-import com.org.example.entities.Card;
-import com.org.example.entities.Event;
-import com.org.example.entities.Friendship;
+import com.org.example.domain.card.Card;
+import com.org.example.domain.event.Event;
+import com.org.example.domain.Friendship;
 import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.UserNotFoundException;
 import com.org.example.repo.CardRepo;
@@ -13,7 +13,7 @@ import com.org.example.repo.FriendshipRepo;
 import com.org.example.repo.UserRepo;
 import com.org.example.validator.CardValidator;
 import com.org.example.validator.DuckValidator;
-import com.org.example.validator.EventValidator;
+import com.org.example.validator.RaceEventValidator;
 import com.org.example.validator.PersonValidator;
 
 import java.io.FileNotFoundException;
@@ -30,7 +30,7 @@ public class Controller {
         userService = new UserService(ur, new PersonValidator(), new DuckValidator());
         fService = new FriendshipService(fr, ur);
         cService = new CardService(ur, cr, new CardValidator());
-        eService = new EventService(ur, er, new EventValidator());
+        eService = new EventService(ur, er, new RaceEventValidator());
     }
 
     public List<User> getAllUsers() {
@@ -41,7 +41,7 @@ public class Controller {
         return fService.getAll();
     }
 
-    public List<Card<Duck>> getAllCard() { return cService.getAll(); }
+    public List<Card<? extends Duck>> getAllCard() { return cService.getAll(); }
 
     public List<Event> getAllEvents() { return eService.getAll(); }
 
@@ -73,8 +73,8 @@ public class Controller {
         cService.remove(id);
     }
 
-    public void addEvent(Long id, String name, String[] ids) throws FileNotFoundException {
-        eService.add(id, name, ids);
+    public void addRaceEvent(Long id, String name, Long M) throws FileNotFoundException {
+        eService.addRaceEvent(id, name, M);
     }
 
     public void removeEvent(Long id) throws FileNotFoundException, FriendshipNotFoundException {

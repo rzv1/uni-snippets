@@ -1,6 +1,6 @@
 package com.org.example.service;
 
-import com.org.example.entities.Friendship;
+import com.org.example.domain.Friendship;
 import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.UserNotFoundException;
 import com.org.example.repo.FriendshipDTO;

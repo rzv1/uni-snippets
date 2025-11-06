@@ -1,6 +1,6 @@
 package com.org.example.validator;
 
-import com.org.example.entities.CardDTO;
+import com.org.example.domain.card.CardDTO;
 import com.org.example.exceptions.ValidationException;
 
 import static java.util.Arrays.stream;

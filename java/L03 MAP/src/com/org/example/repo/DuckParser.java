@@ -1,8 +1,12 @@
 package com.org.example.repo;
 
-import com.org.example.domain.*;
+import com.org.example.domain.duck.Duck;
+import com.org.example.domain.duck.FlyingAndSwimmingDuck;
+import com.org.example.domain.duck.FlyingDuck;
+import com.org.example.domain.duck.SwimmingDuck;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class DuckParser extends UserParser<Duck>{
     @Override
@@ -26,7 +30,8 @@ public class DuckParser extends UserParser<Duck>{
         d.setTip(parts[5]);
         d.setViteza(Double.parseDouble(parts[6]));
         d.setRezistenta(Double.parseDouble(parts[7]));
-        d.setCardId(Long.parseLong(parts[8]));
+        if(!Objects.equals(parts[8], "null"))
+            d.setCardId(Long.parseLong(parts[8]));
         return d;
     }
 }

@@ -1,6 +1,6 @@
 package com.org.example.repo;
 
-import com.org.example.entities.Event;
+import com.org.example.domain.event.Event;
 import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.UserNotFoundException;
 
@@ -52,7 +52,7 @@ public class EventRepo implements Repo<Long, Event>{
         PrintWriter pw = new PrintWriter(filePath);
         events.forEach(e ->
                 pw.write(e.getId() + ";" + e.getName() + ";" +
-                        e.getSubscribers().stream().map(s -> String.valueOf(s.getId())).collect(Collectors.joining(","))));
+                        e.getSubscribers().stream().map(s -> String.valueOf(s.getId())).collect(Collectors.joining(",")) + "\n"));
         pw.close();
     }
 

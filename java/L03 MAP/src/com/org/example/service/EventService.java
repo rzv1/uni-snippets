@@ -1,33 +1,34 @@
 package com.org.example.service;
 
 import com.org.example.domain.User;
-import com.org.example.entities.Event;
-import com.org.example.entities.EventDTO;
+import com.org.example.domain.duck.FlyingAndSwimmingDuck;
+import com.org.example.domain.duck.SwimmingDuck;
+import com.org.example.domain.event.Event;
+import com.org.example.domain.event.RaceEvent;
+import com.org.example.domain.event.RaceEventDTO;
 import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.repo.EventRepo;
 import com.org.example.repo.UserRepo;
-import com.org.example.validator.EventValidator;
+import com.org.example.validator.RaceEventValidator;
 
 import java.io.FileNotFoundException;
 import java.util.List;
 
-import static java.util.Arrays.stream;
-
 public class EventService {
     private final UserRepo uRepo;
     private final EventRepo eRepo;
-    private final EventValidator validator;
+    private final RaceEventValidator validator;
 
-    public EventService(UserRepo uRepo, EventRepo eRepo, EventValidator validator) {
+    public EventService(UserRepo uRepo, EventRepo eRepo, RaceEventValidator validator) {
         this.uRepo = uRepo;
         this.eRepo = eRepo;
         this.validator = validator;
     }
 
-    public void add(Long id, String name, String[] ids) throws FileNotFoundException {
-        validator.validate(new EventDTO(id, name, ids));
-        List<User> idx = stream(ids).map(x -> uRepo.find(Long.parseLong(x))).toList();
-        Event e = new Event(id, name, idx);
+    public void addRaceEvent(Long id, String name, Long M) throws FileNotFoundException {
+        List<User> rate = uRepo.getAll().stream().filter(u -> u instanceof SwimmingDuck || u instanceof FlyingAndSwimmingDuck).limit(M).toList();
+        validator.validate(new RaceEventDTO(id, name, (long) rate.size(), M));
+        Event e = new RaceEvent(id, name, rate);
         eRepo.add(e);
     }
 
