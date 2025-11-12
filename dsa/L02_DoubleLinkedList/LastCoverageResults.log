@@ -1,0 +1,21 @@
+[2025-04-16 15:14:28] [info] Start Program:
+Path:"C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\SDA_Lab03.exe"
+Arguments:
+Working directory: "C:\Users\rzvde\source\repos\_sem2\SDA_Lab03\"
+Modules: Selected: C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\POO_Lab02.exe C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\SDA_Lab01.exe C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\POO_Lab03.exe C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\POO_Lab04.exe C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\POO_Lab05.exe C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\POO_Lab06.exe C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\POO_Lab07.exe C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\SDA_Lab03.exe Excluded: 
+Sources: Selected: C:\Users\rzvde\source\repos\_sem2\POO_Lab02 C:\Users\rzvde\source\repos\_sem2\SDA_Lab01 C:\Users\rzvde\source\repos\_sem2\POO_Lab03 C:\Users\rzvde\source\repos\_sem2\POO_Lab4 C:\Users\rzvde\source\repos\_sem2\POO_Lab05 C:\Users\rzvde\source\repos\_sem2\POO_Lab06 C:\Users\rzvde\source\repos\_sem2\POO_Lab07 C:\Users\rzvde\source\repos\_sem2\SDA_Lab03 Excluded: 
+Log Level: Normal
+Cover Children: 0
+Aggregate by file: 1
+Continue after C++ exception: 0
+Optimized build support: 0
+Export: Binary C:\Users\rzvde\AppData\Local\Temp\zbuqi4qg.b00 
+Input coverage: 
+Unified diff: 
+Excluded line regular expressions: 
+Substitute pdb source paths: 
+
+[2025-04-16 15:14:28] [info] Module: C:\Users\rzvde\source\repos\_sem2\x64\Debug\SDA_Lab03.exe is selected because it matches selected pattern: C:\Users\rzvde\Source\Repos\_sem2\x64\Debug\SDA_Lab03.exe
+[2025-04-16 15:18:39] [info] ----------------------------------------------------
+[2025-04-16 15:18:39] [info] Coverage binary generated in file: C:\Users\rzvde\AppData\Local\Temp\zbuqi4qg.b00
+[2025-04-16 15:18:39] [info] ----------------------------------------------------
