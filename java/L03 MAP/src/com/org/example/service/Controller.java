@@ -73,12 +73,16 @@ public class Controller {
         cService.remove(id);
     }
 
-    public void addRaceEvent(Long id, String name, Long M) throws FileNotFoundException {
+    public void  addRaceEvent(Long id, String name, Long M) throws FileNotFoundException {
         eService.addRaceEvent(id, name, M);
     }
 
     public void removeEvent(Long id) throws FileNotFoundException, FriendshipNotFoundException {
         eService.remove(id);
+    }
+
+    public void getMedie(Long id) {
+        cService.getMedie(id);
     }
 
     public String communitiesNumber() {

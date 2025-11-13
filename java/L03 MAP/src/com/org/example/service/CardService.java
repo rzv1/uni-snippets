@@ -42,6 +42,11 @@ public class CardService {
         cRepo.add(card);
     }
 
+    public void getMedie(Long id){
+        Card c = cRepo.find(id);
+        System.out.println(c.getPerformantaMedie());
+    }
+
     public void remove(Long id) throws FileNotFoundException, FriendshipNotFoundException {
         cRepo.remove(id);
     }

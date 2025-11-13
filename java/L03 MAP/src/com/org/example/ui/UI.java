@@ -36,7 +36,8 @@ public class UI {
                     case "7" -> handleRemoveCard();
                     case "8" -> handleAddRaceEvent();
                     case "9" -> handleRemoveEvent();
-                    case "10" -> running = false;
+                    case "10" -> handleGetMedie();
+                    case "11" -> running = false;
                     default -> throw new InvalidUsageException();
                 }
                 System.out.println("Operation successful.");
@@ -58,7 +59,8 @@ public class UI {
         System.out.println("7) Remove Card");
         System.out.println("8) Add RaceEvent");
         System.out.println("9) Remove Event");
-        System.out.println("10) Exit");
+        System.out.println("10) Get medie");
+        System.out.println("11) Exit");
         System.out.print("Select: ");
     }
 
@@ -188,5 +190,12 @@ public class UI {
         System.out.print("Id: ");
         Long id = Long.parseLong(scanner.nextLine());
         controller.removeEvent(id);
+    }
+
+    private void handleGetMedie() {
+        printCard();
+        System.out.print("Id: ");
+        Long id = Long.parseLong(scanner.nextLine());
+        controller.getMedie(id);
     }
 }
