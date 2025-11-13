@@ -1,0 +1,21 @@
+[2025-04-08 23:59:32] [info] Start Program:
+Path:"C:\Users\40773\source\repos\Laboratoare\x64\Debug\POO_Lab05.exe"
+Arguments:
+Working directory: "C:\Users\40773\source\repos\Laboratoare\POO_Lab05\"
+Modules: Selected: C:\Users\40773\source\repos\Laboratoare\x64\Debug\POO_Lab02.exe C:\Users\40773\source\repos\Laboratoare\x64\Debug\SDA_Lab01.exe C:\Users\40773\source\repos\Laboratoare\x64\Debug\POO_Lab03.exe C:\Users\40773\source\repos\Laboratoare\x64\Debug\POO_Lab04.exe C:\Users\40773\source\repos\Laboratoare\x64\Debug\POO_Lab05.exe C:\Users\40773\source\repos\Laboratoare\x64\Debug\POO_Lab06.exe C:\Users\40773\source\repos\Laboratoare\x64\Debug\POO_Lab07.exe Excluded: 
+Sources: Selected: C:\Users\40773\source\repos\Laboratoare\POO_Lab02 C:\Users\40773\source\repos\Laboratoare\SDA_Lab01 C:\Users\40773\source\repos\Laboratoare\POO_Lab03 C:\Users\40773\source\repos\Laboratoare\POO_Lab4 C:\Users\40773\source\repos\Laboratoare\POO_Lab05 C:\Users\40773\source\repos\Laboratoare\POO_Lab06 C:\Users\40773\source\repos\Laboratoare\POO_Lab07 Excluded: 
+Log Level: Normal
+Cover Children: 0
+Aggregate by file: 1
+Continue after C++ exception: 0
+Optimized build support: 0
+Export: Binary C:\Users\40773\AppData\Local\Temp\5cte5vxo.jlu 
+Input coverage: 
+Unified diff: 
+Excluded line regular expressions: 
+Substitute pdb source paths: 
+
+[2025-04-08 23:59:32] [info] Module: C:\Users\40773\source\repos\Laboratoare\x64\Debug\POO_Lab05.exe is selected because it matches selected pattern: 
+[2025-04-08 23:59:32] [info] ----------------------------------------------------
+[2025-04-08 23:59:32] [info] Coverage binary generated in file: C:\Users\40773\AppData\Local\Temp\5cte5vxo.jlu
+[2025-04-08 23:59:32] [info] ----------------------------------------------------

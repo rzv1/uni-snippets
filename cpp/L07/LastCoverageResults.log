@@ -1,0 +1,21 @@
+[2025-04-15 23:36:59] [info] Start Program:
+Path:"C:\Users\40773\source\repos\Laboratoare\OOP\POO_Lab08\x64\Debug\POO_Lab08.exe"
+Arguments:
+Working directory: "C:\Users\40773\source\repos\Laboratoare\OOP\POO_Lab08\"
+Modules: Selected: C:\Users\40773\source\repos\Laboratoare\OOP\POO_Lab08\x64\Debug\POO_Lab08.exe Excluded: 
+Sources: Selected: C:\Users\40773\source\repos\Laboratoare\OOP\POO_Lab08 Excluded: 
+Log Level: Normal
+Cover Children: 0
+Aggregate by file: 1
+Continue after C++ exception: 0
+Optimized build support: 0
+Export: Binary C:\Users\40773\AppData\Local\Temp\zp11r3or.diw 
+Input coverage: 
+Unified diff: 
+Excluded line regular expressions: 
+Substitute pdb source paths: 
+
+[2025-04-15 23:36:59] [info] Module: C:\Users\40773\source\repos\Laboratoare\OOP\POO_Lab08\x64\Debug\POO_Lab08.exe is selected because it matches selected pattern: C:\Users\40773\source\repos\Laboratoare\OOP\POO_Lab08\x64\Debug\POO_Lab08.exe
+[2025-04-15 23:36:59] [info] ----------------------------------------------------
+[2025-04-15 23:36:59] [info] Coverage binary generated in file: C:\Users\40773\AppData\Local\Temp\zp11r3or.diw
+[2025-04-15 23:36:59] [info] ----------------------------------------------------
