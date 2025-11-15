@@ -1,8 +1,11 @@
 package com.org.example.domain.duck;
 
 import com.org.example.domain.User;
+import com.org.example.domain.card.Card;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,5 +32,9 @@ public abstract class Duck extends User {
     public String getUserType() {
         return "duck";
     }
+
+    public abstract String getCardType();
+
+    public abstract Card<? extends Duck> getCard(Long id, String name, List<Duck> members);
 
 }

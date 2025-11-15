@@ -2,10 +2,8 @@ package com.org.example.repo;
 
 import com.org.example.domain.User;
 import com.org.example.domain.event.Event;
-import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.EntityNotFoundException;
 
-import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +15,7 @@ public class EventRepo implements Repo<Long, Event>{
     private final String password;
     private final UserRepo uRepo;
 
-    public EventRepo(String url, String username, String password, UserRepo uRepo) throws FileNotFoundException {
+    public EventRepo(String url, String username, String password, UserRepo uRepo) {
         this.url = url;
         this.username = username;
         this.password = password;
@@ -48,7 +46,7 @@ public class EventRepo implements Repo<Long, Event>{
         String name = rs.getString("name");
         List<User> users = new ArrayList<>();
         while(rs1.next()) {
-            users.add(uRepo.find(rs1.getLong("idUser")));
+            users.add(uRepo.find(rs1.getLong("idUser")).get());
         }
         return new Event(id, name, users);
     }
@@ -72,7 +70,7 @@ public class EventRepo implements Repo<Long, Event>{
     }
 
     @Override
-    public Optional<Event> remove(Long id) throws EntityNotFoundException, FriendshipNotFoundException, FileNotFoundException {
+    public Optional<Event> remove(Long id) throws EntityNotFoundException{
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             Optional<Event> e = find(id);
             var statement1 = conn.prepareStatement("DELETE FROM \"EventSubscribers\" WHERE \"idEvent\" = ?");

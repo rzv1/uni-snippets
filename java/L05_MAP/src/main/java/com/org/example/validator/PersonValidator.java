@@ -12,16 +12,16 @@ public class PersonValidator extends UserValidator{
         Person p = (Person) person;
         if (p.getId() < 0 || p.getId() > 10000)
             throw new ValidationException("Invalid id.");
-        if (p.getNume().isBlank())
+        if (p.getSurname().isBlank())
             throw new ValidationException("Invalid last name.");
-        if (p.getPrenume().isBlank())
+        if (p.getName().isBlank())
             throw new ValidationException("Invalid first name.");
-        if (p.getDataNasterii().isAfter(LocalDate.now()) ||
-            p.getDataNasterii().plusYears(100).isBefore(LocalDate.now()))
+        if (p.getBirthDate().isAfter(LocalDate.now()) ||
+            p.getBirthDate().plusYears(100).isBefore(LocalDate.now()))
             throw new ValidationException("Invalid birthday.");
-        if (p.getOcupatie().isBlank())
+        if (p.getOccupation().isBlank())
             throw new ValidationException("Invalid job.");
-        if (p.getNivelEmpatie() > 100 || p.getNivelEmpatie() < 0)
+        if (p.getEmpathyLevel() > 100 || p.getEmpathyLevel() < 0)
             throw new ValidationException("Invalid empathy level.");
     }
 }

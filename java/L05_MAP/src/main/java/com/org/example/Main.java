@@ -10,7 +10,7 @@ import com.org.example.ui.UI;
 public class Main {
     public static void main(String[] args){
         try {
-            String url = "jdbc:postgresql://localhost:5432/MAP";
+            String url = "jdbc:postgresql://192.168.0.45:5432/MAP";
             String username = "postgres";
             String password = "rzv";
             UserRepo uRepo = new UserRepo(url, username, password);

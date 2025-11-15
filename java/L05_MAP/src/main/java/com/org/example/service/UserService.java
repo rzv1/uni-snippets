@@ -11,7 +11,6 @@ import com.org.example.repo.UserRepo;
 
 import com.org.example.validator.UserValidator;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -26,24 +25,24 @@ public class UserService {
         this.duckValidator = duckValidator;
     }
 
-    public void addPerson(Long id, String username, String email, String password, String lastName, String firstName, LocalDate birthday, String job, Long empathy) throws FileNotFoundException {
+    public void addPerson(Long id, String username, String email, String password, String lastName, String firstName, LocalDate birthday, String job, Long empathy){
         Person p = new Person(id, username, email, password, lastName, firstName, birthday, job, empathy);
         personValidator.validate(p);
         ur.add(p);
     }
 
-    public void addDuck(Long id, String username, String email, String password, String type, Double speed, Double res) throws FileNotFoundException {
+    public void addDuck(Long id, String username, String email, String password, String type, Double speed, Double res) {
         Duck d = switch (type) {
-            case "FLYING" -> new SwimmingDuck(id, username, email, password, type, speed, res);
-            case "SWIMMING" -> new FlyingDuck(id, username, email, password, type, speed, res);
-            case "FLYING_AND_SWIMMING" -> new FlyingAndSwimmingDuck(id, username, email, password, type, speed, res);
+            case "FLYING" -> new SwimmingDuck(id, username, email, password, type, speed, res, 0L);
+            case "SWIMMING" -> new FlyingDuck(id, username, email, password, type, speed, res, 0L);
+            case "FLYING_AND_SWIMMING" -> new FlyingAndSwimmingDuck(id, username, email, password, type, speed, res, 0L);
             default -> throw new InvalidUsageException();
         };
         duckValidator.validate(d);
         ur.add(d);
     }
 
-    public void remove(Long id) throws EntityNotFoundException, FileNotFoundException {
+    public void remove(Long id) throws EntityNotFoundException{
         ur.remove(id);
     }
 
