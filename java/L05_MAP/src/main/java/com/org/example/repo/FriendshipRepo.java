@@ -62,28 +62,27 @@ public class FriendshipRepo implements Repo<Long, Friendship>{
     @Override
     public Optional<Friendship> remove(Long id) throws EntityNotFoundException {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            Optional<Friendship> f = find(id);
             var statement = conn.prepareStatement("DELETE FROM \"Friendship\" WHERE id = ?");
             statement.setLong(1, id);
             var rez = statement.executeUpdate();
-            Optional<Friendship> f = find(id);
-            if (rez != 1) {
+            if (rez < 1) {
                 throw new EntityNotFoundException(id);
             }
             return f;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }adasdsdasdasdasd
-i
+        }
+    }
 
     @Override
-    public Optional<Friendship>  add(Friendship entity) {
+    public Optional<Friendship> add(Friendship entity) {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
-            var statement = conn.prepareStatement("INSERT INTO \"Friendship\" VALUES (?, ?, ?)");
-            statement.setLong(1, entity.getId());
-            statement.setLong(2, entity.getUser1().getId());
-            statement.setLong(3, entity.getUser2().getId());
+            var statement = conn.prepareStatement("INSERT INTO \"Friendship\" (\"idUser1\", \"idUser2\") VALUES (?, ?)");
+            statement.setLong(1, entity.getUser1().getId());
+            statement.setLong(2, entity.getUser2().getId());
             statement.executeUpdate();
-            return find(entity.getId());
+            return Optional.of(entity);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -45,7 +45,7 @@ public class CardRepo implements Repo<Long, Card<? extends Duck>> {
                     Duck d = (Duck) uRepo.find(idUser).get();
                     users.add(d);
                 }
-                String name = rs.getString("name");
+                String name = rs.getString("nume");
                 String type = rs.getString("type");
                 return switch (type) {
                     case "swimmasters" -> Optional.of(new SwimMastersCard(id, name, users));
@@ -65,12 +65,12 @@ public class CardRepo implements Repo<Long, Card<? extends Duck>> {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             var stmt = conn.prepareStatement("SELECT * FROM \"Card\"");
             ResultSet rs = stmt.executeQuery();
-            Long id = rs.getLong("id");
             List<Card<? extends Duck>> cards = new ArrayList<>();
-            var stmt1 = conn.prepareStatement("SELECT * FROM \"CardMembri\" WHERE \"idCard\" = ?");
-            stmt1.setLong(1, id);
-            ResultSet rs1 = stmt1.executeQuery();
             while (rs.next()) {
+                long id = rs.getLong("id");
+                var stmt1 = conn.prepareStatement("SELECT \"idUser\" FROM \"CardMembri\" WHERE \"idCard\" = ?");
+                stmt1.setLong(1, id);
+                ResultSet rs1 = stmt1.executeQuery();
                 cards.add(getCard(id, rs, rs1));
             }
             return cards;
@@ -80,32 +80,26 @@ public class CardRepo implements Repo<Long, Card<? extends Duck>> {
     }
 
     private Card<? extends Duck> getCard(Long id, ResultSet rs, ResultSet rsMembers) throws SQLException {
-        String name = rs.getString("name");
+        String name = rs.getString("nume");
         List<Duck> users = new ArrayList<>();
-        long idUser = 0L;
-        if(rsMembers.next()) {
-            while (rsMembers.next()) {
-                idUser = rsMembers.getLong("idUser");
-                users.add((Duck) uRepo.find(idUser).get());
-            }
-            Duck d = (Duck) uRepo.find(idUser).get();
-            return d.getCard(id, name, users);
+        while (rsMembers.next()) {
+            Long idUser = rsMembers.getLong("idUser");
+            users.add((Duck) uRepo.find(idUser).get());
         }
-        throw new RuntimeException("Empty Card not allowed.");
+        return users.get(0).getCard(id, name, users);
     }
 
     @Override
     public Optional<Card<? extends Duck>> remove(Long id) throws EntityNotFoundException {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            Optional<Card<? extends Duck>> c = find(id);
             var stmt = conn.prepareStatement("DELETE FROM \"CardMembri\" WHERE \"idCard\" = ?");
             stmt.setLong(1, id);
             var rez = stmt.executeUpdate();
             var stmt1 = conn.prepareStatement("DELETE FROM \"Card\" WHERE id = ?");
             stmt1.setLong(1, id);
             var rez1 = stmt1.executeUpdate();
-            if(rez > 0 && rez1 > 0)
-                return find(id);
-            throw new RuntimeException("Card remove failed");
+            return c;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -114,7 +108,13 @@ public class CardRepo implements Repo<Long, Card<? extends Duck>> {
     @Override
     public Optional<Card<? extends Duck>> add(Card<? extends Duck> entity) {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
-            var stmt = conn.prepareStatement("INSERT INTO \"Card\" VALUES (?, ?, ?)");
+            try{
+                find(entity.getId());
+                throw new InvalidUsageException();
+            }catch(Exception e){
+                var i = 0;
+            }
+            var stmt = conn.prepareStatement("INSERT INTO \"Card\" (id, nume, type) VALUES (?, ?, ?)");
             stmt.setLong(1, entity.getId());
             stmt.setString(2, entity.getName());
             stmt.setString(3, entity.getType());
@@ -122,7 +122,10 @@ public class CardRepo implements Repo<Long, Card<? extends Duck>> {
             for(Duck d : entity.getMembers()) {
                 var stmt1 = conn.prepareStatement("INSERT INTO \"CardMembri\" VALUES (?, ?)");
                 stmt1.setLong(1, entity.getId());
+                stmt1.setLong(2, d.getId());
+                stmt1.executeUpdate();
             }
+            return rez > 0 ? Optional.of(entity) : Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

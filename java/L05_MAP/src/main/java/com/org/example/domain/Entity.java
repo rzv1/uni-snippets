@@ -11,4 +11,5 @@ public abstract class Entity<ID> {
     public Entity(ID id) {
         this.id = id;
     }
+    public Entity(){}
 }
