@@ -1,0 +1,11 @@
+com.org.example
+com.org.example.domain
+com.org.example.domain.card
+com.org.example.domain.duck
+com.org.example.domain.event
+com.org.example.exceptions
+com.org.example.repo
+com.org.example.service
+com.org.example.solver
+com.org.example.ui
+com.org.example.validator

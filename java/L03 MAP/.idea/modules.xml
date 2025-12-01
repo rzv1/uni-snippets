@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/L03 MAP.iml" filepath="$PROJECT_DIR$/L03 MAP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/L03_MAP.iml" filepath="$PROJECT_DIR$/.idea/modules/L03_MAP.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/L03_MAP.main.iml" filepath="$PROJECT_DIR$/.idea/modules/L03_MAP.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/L03_MAP.test.iml" filepath="$PROJECT_DIR$/.idea/modules/L03_MAP.test.iml" />
     </modules>
   </component>
 </project>
