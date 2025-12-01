@@ -13,6 +13,6 @@ public class SkyFlyersCard extends Card<FlyingDuck>{
 
     @Override
     public String getType() {
-        return "FLYING";
+        return "skyflyers";
     }
 }

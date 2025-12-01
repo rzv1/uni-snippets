@@ -2,16 +2,12 @@ package com.org.example.service;
 
 import com.org.example.domain.card.*;
 import com.org.example.domain.duck.Duck;
-import com.org.example.domain.duck.FlyingAndSwimmingDuck;
-import com.org.example.domain.duck.FlyingDuck;
-import com.org.example.domain.duck.SwimmingDuck;
-import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.EntityNotFoundException;
 import com.org.example.repo.CardRepo;
 import com.org.example.repo.UserRepo;
 import com.org.example.validator.CardValidator;
 
-import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.stream;
@@ -27,31 +23,29 @@ public class CardService {
         this.validator = validator;
     }
 
-    public void add(Long id, String name, String[] ids) throws EntityNotFoundException, FileNotFoundException {
-        CardDTO c = new CardDTO(id, name, ids);
+    public void add(Long id, String type, String name, String[] ids) throws EntityNotFoundException{
+        CardDTO c = new CardDTO(id, type, name, ids);
         validator.validate(c);
-        List<? extends Duck> idx = stream(ids).map(x -> uRepo.find(Long.parseLong(x)))
-                .filter(u -> u instanceof Duck).map(u -> (Duck) u).toList();
-        Long swimCount = idx.stream().filter(d -> d instanceof SwimmingDuck || d instanceof FlyingAndSwimmingDuck).count();
-        Long flyCount = idx.stream().filter(d -> d instanceof FlyingDuck || d instanceof FlyingAndSwimmingDuck).count();
-        var card = switch((swimCount != 0 ? "S" : "") + (flyCount != 0 ? "F" : "")){
-            case "SF" -> new SwimFlyersCard(id, name, (List<FlyingAndSwimmingDuck>) idx);
-            case "S" -> new SwimMastersCard(id, name, (List<SwimmingDuck>) idx);
-            default -> new SkyFlyersCard(id, name, (List<FlyingDuck>) idx);
-        };
-        cRepo.add(card);
+        List<Duck> members = new ArrayList<>();
+        for(Long i : stream(ids).map(Long::parseLong).toList()){
+            members.add((Duck) uRepo.find(i).get());
+        }
+        Duck d = (Duck) uRepo.find(Long.parseLong(ids[0])).get();
+        cRepo.add(d.getCard(id, name, members));
     }
 
     public void getMedie(Long id){
-        Card c = cRepo.find(id);
-        System.out.println(c.getPerformantaMedie());
+        if(cRepo.find(id).isPresent()) {
+            Card<? extends Duck> c = cRepo.find(id).get();
+            System.out.println(c.getAveragePerformance());
+        }
     }
 
-    public void remove(Long id) throws FileNotFoundException, FriendshipNotFoundException {
+    public void remove(Long id) {
         cRepo.remove(id);
     }
 
-    public List<Card<? extends Duck>> getAll() {
+    public Iterable<Card<? extends Duck>> getAll() {
         return cRepo.getAll();
     }
 }

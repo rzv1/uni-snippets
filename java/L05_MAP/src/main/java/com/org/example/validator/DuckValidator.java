@@ -11,11 +11,11 @@ public class DuckValidator extends UserValidator{
     @Override
     public void validateSpecific(User duck) throws ValidationException {
         Duck d = (Duck) duck;
-        if (!type.contains(d.getTip()))
+        if (!type.contains(d.getType()))
             throw new ValidationException("Invalid duck type.");
-        if (d.getViteza() <= 0)
+        if (d.getSpeed() <= 0)
             throw new ValidationException("Invalid speed.");
-        if (d.getRezistenta() <= 0)
+        if (d.getResistance() <= 0)
             throw new ValidationException("Invalid res.");
     }
 }

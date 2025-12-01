@@ -3,8 +3,6 @@ package com.org.example.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 public class Friendship extends Entity<Long>{
@@ -19,10 +17,6 @@ public class Friendship extends Entity<Long>{
 
     @Override
     public String toString() {
-        return getId() + " | User " + user1.getId() + " este prieten cu user " + user2.getId();
-    }
-
-    public Iterable<User> getFriendship(){
-        return List.of(user1, user2);
+        return getId() + " | " + user1.toString() + " este prieten cu user " + user2.toString();
     }
 }

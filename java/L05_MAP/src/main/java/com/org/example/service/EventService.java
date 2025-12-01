@@ -7,7 +7,6 @@ import com.org.example.domain.duck.SwimmingDuck;
 import com.org.example.domain.event.Event;
 import com.org.example.domain.event.RaceEvent;
 import com.org.example.domain.event.RaceEventDTO;
-import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.repo.EventRepo;
 import com.org.example.repo.UserRepo;
 import com.org.example.validator.RaceEventValidator;
@@ -28,7 +27,7 @@ public class EventService {
         this.validator = validator;
     }
 
-    public void addRaceEvent(Long id, String name, Long M) throws FileNotFoundException {
+    public void addRaceEvent(Long id, String name, Long M) {
         List<User> rate = uRepo.getAll().stream().filter(u -> u instanceof SwimmingDuck || u instanceof FlyingAndSwimmingDuck).limit(M).toList();
         validator.validate(new RaceEventDTO(id, name, (long) rate.size(), M));
         Event e = new RaceEvent(id, name, rate);
@@ -40,7 +39,7 @@ public class EventService {
         solve(rates, v);
     }
 
-    public void remove(Long id) throws FileNotFoundException, FriendshipNotFoundException {
+    public void remove(Long id) {
         eRepo.remove(id);
     }
 

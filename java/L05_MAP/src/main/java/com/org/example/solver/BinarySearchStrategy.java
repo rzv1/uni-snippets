@@ -42,7 +42,7 @@ public class BinarySearchStrategy {
 
         for (int k = M - 1; k >= 0; k--) {
             double req = need[idxNeed[k]];
-            while (i >= 0 && ducks.get(idxV[i]).getViteza() >= req) {
+            while (i >= 0 && ducks.get(idxV[i]).getSpeed() >= req) {
                 int id = idxV[i--];
                 available.computeIfAbsent(id, _x -> new ArrayDeque<>()).addLast(id);
             }
@@ -56,7 +56,7 @@ public class BinarySearchStrategy {
 
             if (out != null) {
                 int lane = idxNeed[k];
-                double t = 2.0 * dist[lane] / ducks.get(chosen).getViteza();
+                double t = 2.0 * dist[lane] / ducks.get(chosen).getSpeed();
                 out.add(new Assign(chosen + 1, lane + 1, t));
             }
             lastKey = chosen;
@@ -78,7 +78,7 @@ public class BinarySearchStrategy {
         int n = ducks.size();
         Integer[] idx = new Integer[n];
         for (int i = 0; i < n; i++) idx[i] = i;
-        Arrays.sort(idx, Comparator.comparingDouble(i -> ducks.get(i).getViteza()));
+        Arrays.sort(idx, Comparator.comparingDouble(i -> ducks.get(i).getSpeed()));
         return Arrays.stream(idx).mapToInt(Integer::intValue).toArray();
     }
 
@@ -89,8 +89,8 @@ public class BinarySearchStrategy {
     }
 
     private static double minSpeed(List<Duck> ducks) {
-        double m = ducks.get(0).getViteza();
-        for (Duck d : ducks) if (d.getViteza() < m) m = d.getViteza();
+        double m = ducks.get(0).getSpeed();
+        for (Duck d : ducks) if (d.getSpeed() < m) m = d.getSpeed();
         return m;
     }
 

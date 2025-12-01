@@ -13,6 +13,6 @@ public class SwimMastersCard extends Card<SwimmingDuck>{
 
     @Override
     public String getType() {
-        return "SWIMMING";
+        return "swimmasters";
     }
 }

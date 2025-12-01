@@ -1,14 +1,14 @@
 package com.org.example.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public abstract class Entity<ID> {
-    private final ID id;
+    private ID id;
 
     public Entity(ID id) {
         this.id = id;
     }
-
-    public ID getId() {
-        return id;
-    }
-    public void setId(ID id) {}
 }

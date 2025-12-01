@@ -1,4 +1,4 @@
 package com.org.example.domain.card;
 
-public record CardDTO(Long id, String name, String[] ids) {
+public record CardDTO(Long id, String type, String name, String[] ids) {
 }

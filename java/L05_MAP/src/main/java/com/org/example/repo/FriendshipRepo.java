@@ -1,11 +1,8 @@
 package com.org.example.repo;
 
 import com.org.example.domain.Friendship;
-import com.org.example.exceptions.FriendshipNotFoundException;
 import com.org.example.exceptions.EntityNotFoundException;
 
-import javax.swing.text.html.Option;
-import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +14,7 @@ public class FriendshipRepo implements Repo<Long, Friendship>{
     private final String username;
     private final String password;
 
-    public FriendshipRepo(String url, String username, String password, UserRepo userRepo) throws FileNotFoundException, EntityNotFoundException {
+    public FriendshipRepo(String url, String username, String password, UserRepo userRepo) throws EntityNotFoundException {
         this.url = url;
         this.username = username;
         this.password = password;
@@ -43,7 +40,7 @@ public class FriendshipRepo implements Repo<Long, Friendship>{
         var id = rs.getLong("id");
         var id_user1 = rs.getLong("idUser1");
         var id_user2 = rs.getLong("idUser2");
-        return new Friendship(id, userRepo.find(id_user1), userRepo.find(id_user2));
+        return new Friendship(id, userRepo.find(id_user1).get(), userRepo.find(id_user2).get());
     }
 
     @Override
@@ -75,11 +72,11 @@ public class FriendshipRepo implements Repo<Long, Friendship>{
             return f;
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
-    }
+        }adasdsdasdasdasd
+i
 
     @Override
-    public Optional<Friendship> add(Friendship entity) {
+    public Optional<Friendship>  add(Friendship entity) {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             var statement = conn.prepareStatement("INSERT INTO \"Friendship\" VALUES (?, ?, ?)");
             statement.setLong(1, entity.getId());
