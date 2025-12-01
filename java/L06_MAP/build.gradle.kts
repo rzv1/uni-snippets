@@ -1,0 +1,57 @@
+plugins {
+    java
+    application
+    id("org.javamodularity.moduleplugin") version "1.8.12"
+    id("org.openjfx.javafxplugin") version "0.0.13"
+    id("org.beryx.jlink") version "2.25.0"
+}
+
+group = "com.org.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+val junitVersion = "5.10.2"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+}
+
+application {
+    mainModule.set("com.org.example")
+    mainClass.set("com.org.example.Main")
+}
+
+javafx {
+    version = "17.0.6"
+    modules = listOf("javafx.controls", "javafx.fxml")
+}
+
+dependencies {
+    implementation("org.controlsfx:controlsfx:11.2.1")
+    implementation("org.postgresql:postgresql:42.7.3")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    compileOnly("org.projectlombok:lombok:1.18.42")
+    annotationProcessor("org.projectlombok:lombok:1.18.42")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
+jlink {
+    imageZip.set(layout.buildDirectory.file("/distributions/app-${javafx.platform.classifier}.zip"))
+    options.set(listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages"))
+    launcher {
+        name = "app"
+    }
+}
