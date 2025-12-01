@@ -1,6 +1,9 @@
 package com.org.example.repository;
 
 import com.org.example.domain.Friendship;
+import com.org.example.util.paging.Page;
+import com.org.example.util.paging.Pageable;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -9,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class FriendshipRepo implements Repo<Long, Friendship>{
+public class FriendshipRepo implements PagingRepository<Long, Friendship>{
     private final String url;
     private final String username;
     private final String password;
@@ -83,6 +86,39 @@ public class FriendshipRepo implements Repo<Long, Friendship>{
             statement.setLong(2, entity.getUser2Id());
             statement.executeUpdate();
             return Optional.of(entity);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private int count(Connection conn) throws SQLException {
+        var stmt = conn.prepareStatement("SELECT COUNT(*) as count FROM \"Friendship\"");
+        ResultSet rs = stmt.executeQuery();
+        if(rs.next()) {
+            return rs.getInt("count");
+        }
+        return 0;
+    }
+
+    private List<Friendship> findAllOnPage(Connection conn, Pageable pageable) throws SQLException {
+        List<Friendship> friendships = new ArrayList<>();
+        String sql = "SELECT * FROM \"Friendship\" limit ? offset ?";
+        var statement = conn.prepareStatement(sql);
+        statement.setInt(1, pageable.getPageSize());
+        statement.setInt(2, pageable.getPageSize() * pageable.getPageNumber());
+        ResultSet rs = statement.executeQuery();
+        while(rs.next()){
+            friendships.add(getFriendship(rs));
+        }
+        return friendships;
+    }
+
+    @Override
+    public Page<Friendship>  findAllOnPage(Pageable pageable) {
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            List<Friendship> friendships = findAllOnPage(conn, pageable);
+            int totalNumber = count(conn);
+            return new Page<>(friendships, totalNumber);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

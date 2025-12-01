@@ -8,25 +8,13 @@ import com.org.example.repository.UserRepo;
 import static java.util.Arrays.stream;
 
 public class CardValidator implements Validator<CardDTO> {
-    private final UserRepo ur;
-
-    public CardValidator(UserRepo ur) {
-        this.ur = ur;
-    }
-
     @Override
     public void validate(CardDTO entity) throws ValidationException {
         if (!"skyflyers, swimmasters, swimflyers".contains(entity.type().toLowerCase()))
             throw new ValidationException("Invalid type.");
         if (entity.name().isBlank())
             throw new ValidationException("Invalid name.");
-        if(entity.ids().length == 0)
+        if (entity.ids().length == 0)
             throw new ValidationException("Invalid ids.");
-        for(Duck d : stream(entity.ids()).map(Long::parseLong).map(id -> (Duck) ur.find(id).orElseThrow()).toList()){
-            if(!d.getCardType().equals(entity.type().toLowerCase()))
-                throw new ValidationException("Invalid ducks for selected Card type.");
-        }
-        stream(entity.ids()).map(Long::parseLong).forEach(id ->
-        {if (id < 1 || id > 10000) throw new ValidationException("Invalid user id.");});
     }
 }

@@ -6,19 +6,9 @@ import com.org.example.dto.FriendshipDTO;
 import com.org.example.repository.UserRepo;
 
 public class FriendshipValidator implements Validator<FriendshipDTO> {
-    private final UserRepo ur;
-
-    public FriendshipValidator(UserRepo ur) {
-        this.ur = ur;
-    }
-
     @Override
     public void validate(FriendshipDTO f) throws ValidationException {
-        if(ur.find(f.user1Id()).isEmpty()) {
-            throw new ValidationException("No user with selected id");
-        }
-        if(ur.find(f.user2Id()).isEmpty()){
-            throw new ValidationException("No user with selected id");
-        }
+        if(f.user1Id().equals(f.user2Id()))
+            throw new ValidationException("Friendship not suitable.");
     }
 }

@@ -41,7 +41,9 @@ public class UserRepo implements Repo<Long, User>{
                     var statement1 = connection.prepareStatement("Select * from \"Duck\" WHERE \"id\" = ?");
                     statement1.setLong(1, id);
                     ResultSet duckRs = statement1.executeQuery();
-                    return Optional.of(getDuck(user, email, password, duckRs));
+                    Duck d = getDuck(user, email, password, duckRs);
+                    d.setId(id);
+                    return Optional.of(d);
                 }
                 case "person" -> {
                     var statement2 = connection.prepareStatement("Select * from \"Person\" WHERE \"id\" = ?");
@@ -56,6 +58,11 @@ public class UserRepo implements Repo<Long, User>{
             throw new RuntimeException(e);
             }
         throw new EntityNotFoundException(id);
+    }
+
+    private User getUser(ResultSet rs) throws SQLException {
+
+        User u = new User(username, email, password);
     }
 
     private Duck getDuck(String username, String email, String password, ResultSet rs) throws SQLException {
@@ -94,17 +101,19 @@ public class UserRepo implements Repo<Long, User>{
             ResultSet resultSet = statement.executeQuery();
             List<User> users = new ArrayList<>();
             while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String username = resultSet.getString("username");
-                String email = resultSet.getString("email");
-                String password = resultSet.getString("password");
+                long id = rs.getLong("id");
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
                 String type = resultSet.getString("type");
                 switch (type) {
                     case "duck" -> {
                         var stmt1 = conn.prepareStatement("Select * from \"Duck\" WHERE \"id\" = ?");
                         stmt1.setLong(1, id);
                         ResultSet duckRs = stmt1.executeQuery();
-                        users.add(getDuck(username, email, password, duckRs));
+                        Duck d = getDuck(username, email, password, duckRs);
+                        d.setId(id);
+                        users.add(d);
                     }
                     case "person" -> {
                         var stmt2 = conn.prepareStatement("Select * from \"Person\" WHERE \"id\" = ?");

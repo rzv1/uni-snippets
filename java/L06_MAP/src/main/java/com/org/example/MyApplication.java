@@ -2,13 +2,16 @@ package com.org.example;
 
 import com.org.example.config.Config;
 import com.org.example.controller.DuckController;
+import com.org.example.controller.MainController;
 import com.org.example.repository.CardRepo;
 import com.org.example.repository.EventRepo;
 import com.org.example.repository.FriendshipRepo;
 import com.org.example.repository.UserRepo;
+import com.org.example.service.CardService;
+import com.org.example.service.EventService;
+import com.org.example.service.FriendshipService;
 import com.org.example.service.UserService;
-import com.org.example.validator.DuckValidator;
-import com.org.example.validator.PersonValidator;
+import com.org.example.validator.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,7 +23,7 @@ import java.io.IOException;
 public class MyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        String url = "jdbc:postgresql://192.168.0.45:5432/MAP";
+        String url = "jdbc:postgresql://localhost:5432/MAP";
         String username = "postgres";
         String password = "rzv";
 
@@ -29,12 +32,17 @@ public class MyApplication extends Application {
         CardRepo cRepo = new CardRepo(url, username, password);
         EventRepo eRepo = new EventRepo(url, username, password);
 
-        FXMLLoader loader = new FXMLLoader(MyApplication.class.getResource("ducks-view.fxml"));
-        Parent root = loader.load();
-        DuckController controller = loader.getController();
         UserService uService = new UserService(uRepo, new PersonValidator(), new DuckValidator());
-        controller.setService(uService);
-        Scene scene = new Scene(root, 320, 240);
+        FriendshipService fService = new FriendshipService(fRepo, uRepo, new FriendshipValidator());
+        CardService cService = new CardService(uRepo, cRepo, new CardValidator());
+        EventService eService = new EventService(uRepo, eRepo, new RaceEventValidator());
+
+        FXMLLoader loader = new FXMLLoader(MyApplication.class.getResource("main-view.fxml"));
+        Parent root = loader.load();
+        MainController controller = loader.getController();
+        controller.setService(uService, fService, cService, eService);
+
+        Scene scene = new Scene(root, 820, 540);
         stage.setTitle("Ducks!");
         stage.setScene(scene);
         stage.show();

@@ -9,7 +9,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
-import java.util.Objects;
 
 public class DuckController {
     private UserService service;
@@ -54,6 +53,25 @@ public class DuckController {
 
     private void applyFilter(String value){
         tableView.getItems().setAll(service.getDucksByType(value));
+    }
+
+    @FXML
+    private void onPrevPage(){
+
+    }
+    @FXML
+    private void onNextPage(){
+
+    }
+
+    @FXML
+    private void onAddClick(){
+
+    }
+
+    @FXML
+    private void onDeleteClick(){
+
     }
 
     private void initModel() {

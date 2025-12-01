@@ -10,23 +10,19 @@ import java.util.List;
 @Getter
 @Setter
 public abstract class Duck extends User {
-    private final String type;
-    private final Double speed;
-    private final Double resistance;
-    private final Long cardId;
+    private String type;
+    private Double speed;
+    private Double resistance;
+    private Long cardId;
 
-    public Duck(String username, String email, String password, String type, Double speed, Double resistance, Long cardId) {
+    public Duck(String username, String email, String password) {
         super(username, email, password);
-        this.type = type;
-        this.speed = speed;
-        this.resistance = resistance;
-        this.cardId = cardId;
     }
 
-    @Override
-    public String toString() {
-        return super.toString() + " | " + type + " | " + speed + " | " + resistance;
-    }
+//    @Override
+//    public String toString() {
+//        return super.toString() + " | " + type + " | " + speed + " | " + resistance;
+//    }
 
     @Override
     public String getUserType() {

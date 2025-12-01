@@ -18,7 +18,7 @@ public abstract class User extends Entity<Long> {
 
     @Override
     public String toString() {
-        return Long.toString(getId()) + " | " + getUserType();
+        return Long.toString(getId()) + " | " + getUsername() + ", "+ getUserType();
     }
 
     public abstract String getUserType();

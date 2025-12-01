@@ -6,8 +6,8 @@ import com.org.example.domain.card.SwimFlyersCard;
 import java.util.List;
 
 public class FlyingAndSwimmingDuck extends Duck implements Inotator, Zburator{
-    public FlyingAndSwimmingDuck(Long id, String password, String email, String username, String type, Double viteza, Double rezistenta, Long cardId) {
-        super(password, email, username, type, viteza, rezistenta, cardId);
+    public FlyingAndSwimmingDuck(String password, String email, String username) {
+        super(password, email, username);
     }
 
     @Override

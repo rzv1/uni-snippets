@@ -1,9 +1,12 @@
 package com.org.example.service;
 
 import com.org.example.domain.Friendship;
+import com.org.example.domain.User;
 import com.org.example.dto.FriendshipDTO;
 import com.org.example.repository.FriendshipRepo;
 import com.org.example.repository.UserRepo;
+import com.org.example.util.paging.Page;
+import com.org.example.util.paging.Pageable;
 import com.org.example.validator.FriendshipValidator;
 
 import java.util.Optional;
@@ -19,17 +22,18 @@ public class FriendshipService {
         this.validator = validator;
     }
 
-    public Optional<Friendship> add(Long user1Id, Long user2Id) {
-        validator.validate(new FriendshipDTO(user1Id, user2Id));
-        if (userRepo.find(user1Id).isPresent() && userRepo.find(user2Id).isPresent()) {
-            Friendship f = new Friendship(user1Id, user2Id);
-            return fRepo.add(f);
-        }
-        return Optional.empty();
+    public Optional<Friendship> add(User user1, User user2) {
+        validator.validate(new FriendshipDTO(user1.getId(), user2.getId()));
+        Friendship f = new Friendship(user1.getId(), user2.getId());
+        return fRepo.add(f);
     }
 
-    public Optional<Friendship> remove(Long id) {
-        return fRepo.remove(id);
+    public Page<Friendship> findAllOnPage(Pageable pageable){
+        return fRepo.findAllOnPage(pageable);
+    }
+
+    public Optional<Friendship> remove(Friendship f) {
+        return fRepo.remove(f.getId());
     }
 
     public Iterable<Friendship> getAll() {

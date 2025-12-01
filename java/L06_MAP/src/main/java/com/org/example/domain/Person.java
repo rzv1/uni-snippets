@@ -8,25 +8,25 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class Person extends User{
-    private String surname;
-    private String name;
+    private String lastName;
+    private String firstName;
     private LocalDate birthDate;
     private String occupation;
     private Long empathyLevel;
 
-    public Person(String username, String email, String password, String surname, String name, LocalDate birthDate, String occupation, Long empathyLevel) {
+    public Person(String username, String email, String password, String lastName, String firstName, LocalDate birthDate, String occupation, Long empathyLevel) {
         super(username, email, password);
         this.empathyLevel = empathyLevel;
         this.occupation = occupation;
         this.birthDate = birthDate;
-        this.name = name;
-        this.surname = surname;
+        this.lastName = lastName;
+        this.firstName = firstName;
     }
 
-    @Override
-    public String toString(){
-        return super.toString() + " | " + name + " | " + birthDate + " | " + occupation;
-    }
+//    @Override
+//    public String toString(){
+//        return super.toString() + " | " + name + " | " + birthDate + " | " + occupation;
+//    }
 
     @Override
     public String getUserType(){

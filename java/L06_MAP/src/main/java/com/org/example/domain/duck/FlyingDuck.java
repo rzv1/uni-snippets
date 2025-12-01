@@ -2,17 +2,19 @@ package com.org.example.domain.duck;
 
 import com.org.example.domain.card.Card;
 import com.org.example.domain.card.SkyFlyersCard;
+import com.org.example.factory.CardType;
 
 import java.util.List;
 
 public class FlyingDuck extends Duck implements Zburator{
-    public FlyingDuck(Long id, String username, String email, String password, String type, Double speed, Double res, Long cardId) {
-        super(username, email, password, type, speed, res, cardId);
+
+    public FlyingDuck(String username, String email, String password) {
+        super(username, email, password);
     }
 
     @Override
     public String getCardType(){
-        return "skyflyers";
+        return CardType.SWIMMING.toString();
     }
 
     @Override

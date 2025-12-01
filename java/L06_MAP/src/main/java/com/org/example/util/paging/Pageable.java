@@ -17,6 +17,13 @@ public class Pageable {
         return pageSize;
     }
 
+    public void incrementPageNumber() {
+        this.pageNumber++;
+    }
+    public void decrementPageNumber() {
+        this.pageNumber--;
+    }
+
     public void setPageNumber(int pageNumber) {
         this.pageNumber = pageNumber;
     }
