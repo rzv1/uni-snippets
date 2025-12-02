@@ -1,7 +1,5 @@
 package com.org.example;
 
-import com.org.example.config.Config;
-import com.org.example.controller.DuckController;
 import com.org.example.controller.MainController;
 import com.org.example.repository.CardRepo;
 import com.org.example.repository.EventRepo;
@@ -10,7 +8,6 @@ import com.org.example.repository.UserRepo;
 import com.org.example.service.CardService;
 import com.org.example.service.EventService;
 import com.org.example.service.FriendshipService;
-import com.org.example.service.UserService;
 import com.org.example.validator.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

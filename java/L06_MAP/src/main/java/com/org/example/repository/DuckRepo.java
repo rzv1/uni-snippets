@@ -98,7 +98,7 @@ public class DuckRepo implements PagingRepository<Long, Duck> {
 
     @Override
     public Iterable<Duck> getAll() {
-        try (Connection conn = DriverManager.getConnection(url, username, password) {
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
             List<Duck> ducks = new ArrayList<>();
             var stmt = conn.prepareStatement("select * from \"Duck\"");
             ResultSet rs = stmt.executeQuery();
@@ -150,6 +150,21 @@ public class DuckRepo implements PagingRepository<Long, Duck> {
             if(rez > 0 && rez1 > 0)
                 return Optional.of(entity);
             return Optional.empty();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<String> getTypes(){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            List<String> types = new ArrayList<>();
+            var stmt = conn.prepareStatement("select distinct type from \"Duck\"");
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                String type = rs.getString("type");
+                types.add(type);
+            }
+            return types;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

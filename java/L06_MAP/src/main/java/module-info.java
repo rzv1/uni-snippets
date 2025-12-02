@@ -29,4 +29,8 @@ module com.org.example {
     opens com.org.example.domain.card to javafx.fxml;
     opens com.org.example.controller to javafx.fxml;
     exports com.org.example.controller;
+    opens com.org.example.util to javafx.fxml;
+    exports com.org.example.util;
+    opens com.org.example.factory to javafx.fxml;
+    exports com.org.example.factory;
 }

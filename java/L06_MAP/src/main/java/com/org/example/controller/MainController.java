@@ -49,7 +49,7 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(MyApplication.class.getResource("/com/org/example/person-view.fxml"));
         Parent page = loader.load();
         PersonController controller = loader.getController();
-        controller.setService(userService);
+        controller.setService(personService);
         contentPane.getChildren().setAll(page);
         contentLabel.setVisible(false);
     }
@@ -59,7 +59,7 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/org/example/ducks-view.fxml"));
         Parent page = loader.load();
         DuckController controller = loader.getController();
-        controller.setService(userService);
+        controller.setService(duckService);
         contentPane.getChildren().setAll(page);
         contentLabel.setVisible(false);
     }

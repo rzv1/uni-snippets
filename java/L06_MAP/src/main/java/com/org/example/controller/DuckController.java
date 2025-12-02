@@ -1,7 +1,8 @@
 package com.org.example.controller;
 
 import com.org.example.domain.duck.Duck;
-import com.org.example.service.UserService;
+import com.org.example.service.DuckService;
+import com.org.example.util.paging.Pageable;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
@@ -11,7 +12,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.util.List;
 
 public class DuckController {
-    private UserService service;
+    private DuckService service;
+    private Pageable pageable;
     @FXML
     private ComboBox<String> typeComboBox;
     @FXML
@@ -29,12 +31,13 @@ public class DuckController {
     @FXML
     private TableColumn<Duck, String> typeColumn;
 
-    public void setService(UserService srv){
+    public void setService(DuckService srv){
         service = srv;
         List<String> types = service.getTypes();
         types.add("All");
         typeComboBox.getItems().setAll(types);
         tableView.getItems().setAll(service.getDucksByType("All"));
+        this.pageable = new Pageable(0, 5);
         initModel();
     }
 

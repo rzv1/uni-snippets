@@ -81,7 +81,7 @@ public class FriendshipController {
         List<Friendship> f = (List<Friendship>) srv.getAll();
         user1ComboBox.getItems().setAll(users);
         user2ComboBox.getItems().setAll(users);
-        this.pageable = new Pageable(currentPage, pageSize);
+        this.pageable = new Pageable(0, 5);
         loadTable();
     }
 }
