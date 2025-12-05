@@ -11,11 +11,6 @@ public class FlyingAndSwimmingDuck extends Duck implements Inotator, Zburator{
     }
 
     @Override
-    public String getCardType(){
-        return "swimflyers";
-    }
-
-    @Override
     public Card<? extends Duck> getCard(String name, List<Duck> members) {
         return new SwimFlyersCard(name, members);
     }

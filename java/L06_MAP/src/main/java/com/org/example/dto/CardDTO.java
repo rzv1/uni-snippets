@@ -1,4 +1,8 @@
 package com.org.example.dto;
 
-public record CardDTO(String type, String name, String[] ids) {
+import com.org.example.domain.duck.Duck;
+
+import java.util.List;
+
+public record CardDTO(String name, List<Duck> ducks) {
 }

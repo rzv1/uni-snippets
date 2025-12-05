@@ -10,11 +10,9 @@ public class PersonValidator extends UserValidator{
     @Override
     public void validateSpecific(User person) throws ValidationException {
         Person p = (Person) person;
-        if (p.getId() < 0 || p.getId() > 10000)
-            throw new ValidationException("Invalid id.");
-        if (p.getSurname().isBlank())
+        if (p.getFirstName().isBlank())
             throw new ValidationException("Invalid last name.");
-        if (p.getName().isBlank())
+        if (p.getLastName().isBlank())
             throw new ValidationException("Invalid first name.");
         if (p.getBirthDate().isAfter(LocalDate.now()) ||
             p.getBirthDate().plusYears(100).isBefore(LocalDate.now()))

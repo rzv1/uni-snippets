@@ -1,5 +1,39 @@
 package com.org.example.controller;
 
-public class AddDuckController {
+import com.org.example.factory.DuckType;
+import com.org.example.service.DuckService;
+import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+public class AddDuckController {
+    private DuckService service;
+    private Stage stage;
+    @FXML TextField usernameField;
+    @FXML TextField emailField;
+    @FXML TextField passwordField;
+    @FXML TextField speedField;
+    @FXML TextField resistanceField;
+    @FXML ComboBox<DuckType> typeBox;
+    @FXML ComboBox<Long> cardIdBox;
+
+    @FXML private void onAddClick(){
+        service.add(usernameField.getText(), emailField.getText(), passwordField.getText(), typeBox.getValue(),
+                Double.parseDouble(speedField.getText()), Double.parseDouble(resistanceField.getText()), cardIdBox.getValue());
+        if(stage != null)
+            stage.close();
+    }
+
+    @FXML private void onCancelClick(){
+        if(stage != null)
+            stage.close();
+    }
+
+    public void setService(DuckService service, Stage stage){
+        this.service = service;
+        this.stage = stage;
+        typeBox.getItems().setAll(service.getAllTypes());
+        cardIdBox.getItems().setAll(service.getCardIds());
+    }
 }

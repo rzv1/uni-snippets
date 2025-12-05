@@ -6,7 +6,6 @@ module com.org.example {
     requires java.sql;
     requires org.postgresql.jdbc;
     requires static lombok;
-    requires com.org.example;
     requires javafx.graphics;
 
     opens com.org.example to javafx.fxml;
@@ -35,4 +34,10 @@ module com.org.example {
     exports com.org.example.util;
     opens com.org.example.factory to javafx.fxml;
     exports com.org.example.factory;
+    opens com.org.example.util.event to javafx.fxml;
+    exports com.org.example.util.event;
+    opens com.org.example.observer to javafx.fxml;
+    exports com.org.example.observer;
+    opens com.org.example.util.paging to javafx.fxml;
+    exports com.org.example.util.paging;
 }

@@ -13,11 +13,6 @@ public class FlyingDuck extends Duck implements Zburator{
     }
 
     @Override
-    public String getCardType(){
-        return CardType.SWIMMING.toString();
-    }
-
-    @Override
     public Card<? extends Duck> getCard(String name, List<Duck> members) {
         return new SkyFlyersCard(name, members);
     }

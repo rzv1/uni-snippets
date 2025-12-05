@@ -5,6 +5,9 @@ import com.org.example.observer.Observable;
 import com.org.example.observer.Observer;
 import com.org.example.repository.PersonRepo;
 import com.org.example.util.event.EntityChangeEvent;
+import com.org.example.util.event.EntityChangeEventType;
+import com.org.example.util.paging.Page;
+import com.org.example.util.paging.Pageable;
 import com.org.example.validator.PersonValidator;
 
 import java.time.LocalDate;
@@ -24,15 +27,25 @@ public class PersonService implements Observable<EntityChangeEvent<Person>> {
     public void add(String username, String email, String password, String lastName, String firstName, LocalDate birthDate, String occupation, Long empathyLevel){
         Person p = new Person(username, email, password, lastName, firstName, birthDate, occupation, empathyLevel);
         validator.validate(p);
-        pRepo.add(p);
+        Person person = pRepo.add(p).orElseThrow();
+        notifyObservers(new EntityChangeEvent<>(EntityChangeEventType.ADD, person));
     }
 
     public void remove(Person entity){
-        pRepo.remove(entity.getId());
+        Person p = pRepo.remove(entity.getId()).orElseThrow();
+        notifyObservers(new EntityChangeEvent<>(EntityChangeEventType.DELETE, p));
     }
 
     public Iterable<Person> getAll(){
         return pRepo.getAll();
+    }
+
+    public int getCount(){
+        return pRepo.count();
+    }
+
+    public Page<Person> getAllOnPage(Pageable pageable){
+        return pRepo.findAllOnPage(pageable);
     }
 
     @Override

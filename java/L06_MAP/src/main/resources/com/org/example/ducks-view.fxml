@@ -30,13 +30,13 @@
           <TableColumn fx:id="speedColumn" prefWidth="75.0" text="speed" />
           <TableColumn fx:id="resistanceColumn" prefWidth="75.0" text="resistance" />
           <TableColumn fx:id="usernameColumn" prefWidth="75.0" text="username" />
-          <TableColumn fx:id="emailColumn" prefWidth="75.0" text="email" />
+          <TableColumn fx:id="emailColumn" prefWidth="84.0" text="email" />
       </columns>
     </TableView>
    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="60.0">
       <children>
          <Button fx:id="prevPageBtn" mnemonicParsing="false" onAction="#onPrevPage" text="Prev" />
-         <Label text="Page x of y" />
+         <Label fx:id="pageLabel" text="Page x of y" />
          <Button fx:id="nextPageBtn" mnemonicParsing="false" onAction="#onNextPage" text="Next" />
       </children>
       <VBox.margin>

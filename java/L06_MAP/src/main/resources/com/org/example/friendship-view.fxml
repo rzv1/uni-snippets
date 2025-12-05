@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.org.example.controller.DuckController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.org.example.controller.FriendshipController">
    <VBox alignment="TOP_RIGHT" prefHeight="120.0" prefWidth="100.0">
       <children>
           <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="200.0" spacing="40.0">
@@ -21,23 +21,25 @@
                   <Insets />
               </VBox.margin>
           </HBox>
-            <Button mnemonicParsing="false" onAction="#onRemoveClick" text="Remove" />
+         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <children>
+               <Label fx:id="friendshipLabel" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="336.0" text="Select a friendship" />
+                  <Button mnemonicParsing="false" onAction="#onRemoveClick" text="Remove" />
+            </children>
+         </HBox>
       </children>
    </VBox>
     <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
         <columns>
             <TableColumn fx:id="idColumn" prefWidth="75.0" text="id" />
-            <TableColumn fx:id="typeColumn" prefWidth="75.0" text="type" />
-            <TableColumn fx:id="speedColumn" prefWidth="75.0" text="speed" />
-            <TableColumn fx:id="resistanceColumn" prefWidth="75.0" text="resistance" />
-            <TableColumn fx:id="usernameColumn" prefWidth="75.0" text="username" />
-            <TableColumn fx:id="emailColumn" prefWidth="75.0" text="email" />
+            <TableColumn fx:id="user1Column" prefWidth="192.0" text="user1" />
+            <TableColumn fx:id="user2Column" minWidth="0.0" prefWidth="192.0" text="user2" />
         </columns>
     </TableView>
     <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="60.0">
         <children>
             <Button fx:id="prevPageBtn" mnemonicParsing="false" onAction="#onPrevPage" text="Prev" />
-            <Label text="Page x of y" />
+            <Label fx:id="pageLabel" text="Page x of y" />
             <Button fx:id="nextPageBtn" mnemonicParsing="false" onAction="#onNextPage" text="Next" />
         </children>
         <VBox.margin>

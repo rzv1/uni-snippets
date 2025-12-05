@@ -23,10 +23,10 @@ public class Person extends User{
         this.firstName = firstName;
     }
 
-//    @Override
-//    public String toString(){
-//        return super.toString() + " | " + name + " | " + birthDate + " | " + occupation;
-//    }
+    @Override
+    public String toString(){
+        return getUserType() + " | " + firstName + " | " + lastName;
+    }
 
     @Override
     public String getUserType(){

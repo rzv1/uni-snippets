@@ -100,6 +100,14 @@ public class FriendshipRepo implements PagingRepository<Long, Friendship>{
         return 0;
     }
 
+    public int count(){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            return count(conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<Friendship> findAllOnPage(Connection conn, Pageable pageable) throws SQLException {
         List<Friendship> friendships = new ArrayList<>();
         String sql = "SELECT * FROM \"Friendship\" limit ? offset ?";

@@ -6,13 +6,8 @@ import com.org.example.domain.card.SwimMastersCard;
 import java.util.List;
 
 public class SwimmingDuck extends Duck implements Inotator{
-    public SwimmingDuck(Long id, String username, String email, String password, String type, Double speed, Double res, Long cardId) {
-        super(username, email, password, type, speed, res, cardId);
-    }
-
-    @Override
-    public String getCardType(){
-        return "swimmasters";
+    public SwimmingDuck(String username, String email, String password) {
+        super(username, email, password);
     }
 
     @Override

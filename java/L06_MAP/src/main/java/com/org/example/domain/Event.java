@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 @Setter
 public class Event extends Entity<Long> {
     private String name;
-    private List<User> subscribers;
+    private List<? extends User> subscribers;
 
-    public Event(String name, List<User> subscribers) {
+    public Event(String name, List<? extends User> subscribers) {
         this.name = name;
         this.subscribers = subscribers;
     }
@@ -24,17 +24,4 @@ public class Event extends Entity<Long> {
                         .collect(Collectors.joining(", "));
     }
 
-    void subscribe(User u){
-        subscribers.add(u);
-    }
-
-    void unsubscribe(User u){
-        subscribers.remove(u);
-    }
-
-    void notifySubscribers(){
-        for(User u : subscribers){
-            u.notify();
-        }
-    }
 }

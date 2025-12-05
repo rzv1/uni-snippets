@@ -1,34 +1,34 @@
 package com.org.example.controller;
 
 import com.org.example.MyApplication;
-import com.org.example.service.CardService;
-import com.org.example.service.EventService;
-import com.org.example.service.FriendshipService;
-import com.org.example.service.UserService;
+import com.org.example.service.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class MainController {
-    private UserService userService;
+    private DuckService duckService;
+    private PersonService personService;
     private EventService eventService;
     private CardService cardService;
     private FriendshipService friendshipService;
-    @FXML
-    private StackPane contentPane;
-    @FXML
-    private Label contentLabel;
+    private Stage stage;
+    @FXML private StackPane contentPane;
+    @FXML private Label contentLabel;
 
-    public void setService(UserService uService, FriendshipService fService, CardService cService, EventService eService) {
-        userService = uService;
+    public void setService(DuckService dService, PersonService pService, FriendshipService fService, CardService cService, EventService eService, Stage stage) {
+        duckService = dService;
+        personService = pService;
         friendshipService = fService;
         cardService = cService;
         eventService = eService;
+        this.stage = stage;
     }
 
     @FXML
@@ -39,7 +39,7 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/org/example/friendship-view.fxml"));
         Parent page = loader.load();
         FriendshipController controller = loader.getController();
-        controller.setService(friendshipService, userService);
+        controller.setService(friendshipService);
         contentPane.getChildren().setAll(page);
         contentLabel.setVisible(false);
     }
@@ -49,7 +49,7 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(MyApplication.class.getResource("/com/org/example/person-view.fxml"));
         Parent page = loader.load();
         PersonController controller = loader.getController();
-        controller.setService(personService);
+        controller.setService(personService, stage);
         contentPane.getChildren().setAll(page);
         contentLabel.setVisible(false);
     }
@@ -59,7 +59,7 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/org/example/ducks-view.fxml"));
         Parent page = loader.load();
         DuckController controller = loader.getController();
-        controller.setService(duckService);
+        controller.setService(duckService, stage);
         contentPane.getChildren().setAll(page);
         contentLabel.setVisible(false);
     }
@@ -69,7 +69,7 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/org/example/flock-view.fxml"));
         Parent page = loader.load();
         FlockController controller = loader.getController();
-        controller.setService(cardService);
+        controller.setService(cardService, duckService);
         contentPane.getChildren().setAll(page);
         contentLabel.setVisible(false);
     }

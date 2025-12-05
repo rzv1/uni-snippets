@@ -23,18 +23,18 @@ public class PersonRepo implements PagingRepository<Long, Person>{
 
     private Person getPerson(Connection conn, ResultSet rs) throws SQLException {
         long id =  rs.getLong("id");
-        String username =  rs.getString("username");
-        String email = rs.getString("email");
-        String password = rs.getString("password");
-        var stmt = conn.prepareStatement("select * from \"Person\" where id = ?");
+        String name = rs.getString("nume");
+        String firstName = rs.getString("prenume");
+        LocalDate birthday = rs.getDate("birthday").toLocalDate();
+        String occupation = rs.getString("ocupatie");
+        Long empathy = rs.getLong("empatie");
+        var stmt = conn.prepareStatement("select * from \"User\" where id = ?");
         stmt.setLong(1, id);
         ResultSet rs1 = stmt.executeQuery();
         if(rs1.next()){
-            String name = rs1.getString("nume");
-            String firstName = rs1.getString("prenume");
-            LocalDate birthday = rs1.getDate("birthday").toLocalDate();
-            String occupation = rs1.getString("ocupatie");
-            Long empathy = rs1.getLong("empatie");
+            String username =  rs1.getString("username");
+            String email = rs1.getString("email");
+            String password = rs1.getString("password");
             Person p = new Person(username, email, password, name, firstName, birthday, occupation, empathy);
             p.setId(id);
             return p;
@@ -57,7 +57,17 @@ public class PersonRepo implements PagingRepository<Long, Person>{
     private int count(Connection conn) throws SQLException {
         var stmt = conn.prepareStatement("select count(*) as count from \"Person\"");
         ResultSet rs = stmt.executeQuery();
-        return rs.getInt("count");
+        if(rs.next())
+            return rs.getInt("count");
+        return 0;
+    }
+
+    public int count(){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            return count(conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -74,7 +84,7 @@ public class PersonRepo implements PagingRepository<Long, Person>{
     @Override
     public Optional<Person> find(Long ID) {
         try (Connection conn = DriverManager.getConnection(url, username, password)){
-            var stmt = conn.prepareStatement("select * from \"User\" where id = ?");
+            var stmt = conn.prepareStatement("select * from \"Person\" where id = ?");
             stmt.setLong(1, ID);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -90,7 +100,7 @@ public class PersonRepo implements PagingRepository<Long, Person>{
     public Iterable<Person> getAll() {
         try (Connection conn = DriverManager.getConnection(url, username, password)) {
             List<Person> people = new ArrayList<>();
-            var stmt = conn.prepareStatement("select * from \"User\"");
+            var stmt = conn.prepareStatement("select * from \"Person\"");
             ResultSet rs =  stmt.executeQuery();
             while (rs.next()) {
                 people.add(getPerson(conn, rs));
@@ -124,10 +134,13 @@ public class PersonRepo implements PagingRepository<Long, Person>{
         try (Connection conn = DriverManager.getConnection(url, username, password)){
             var stmt = conn.prepareStatement("insert into \"User\" (username, email, password) VALUES (?,?,?)",
                     Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, entity.getUsername());
+            stmt.setString(2, entity.getEmail());
+            stmt.setString(3, entity.getPassword());
             var rez = stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
             if(rs.next()) {
-                long id = rs.getLong(1);
+                Long id = rs.getLong(1);
                 var stmt1 = conn.prepareStatement("insert into \"Person\" (id, nume, prenume, birthday, ocupatie, empatie) VALUES (?,?,?,?,?,?)");
                 stmt1.setLong(1, id);
                 stmt1.setString(2, entity.getLastName());

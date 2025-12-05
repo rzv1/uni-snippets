@@ -68,7 +68,7 @@ public class CardRepo implements Repo<Long, Card<? extends Duck>> {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Long id = rs.getLong("id");
-                String name = rs.getString("name");
+                String name = rs.getString("nume");
                 String type = rs.getString("type");
                 var card = getCard(name, type);
                 card.setId(id);

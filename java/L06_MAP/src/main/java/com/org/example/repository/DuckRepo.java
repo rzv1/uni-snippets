@@ -8,7 +8,6 @@ import com.org.example.util.paging.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.sql.*;
 
@@ -27,18 +26,18 @@ public class DuckRepo implements PagingRepository<Long, Duck> {
 
     private Duck getDuck(Connection conn, ResultSet rs) throws SQLException {
         long id = rs.getLong("id");
-        String username = rs.getString("username");
-        String email = rs.getString("email");
-        String password = rs.getString("password");
-        var stmt1 = conn.prepareStatement("select * from \"Duck\" WHERE id = ?");
+        Double resistance = rs.getDouble("rezistenta");
+        Double speed = rs.getDouble("viteza");
+        DuckType type = DuckType.valueOf(rs.getString("type"));
+        Long cardId = rs.getLong("idCard");
+        var stmt1 = conn.prepareStatement("select * from \"User\" WHERE id = ?");
         stmt1.setLong(1, id);
         ResultSet rs1 = stmt1.executeQuery();
         if(rs1.next()) {
-            Double resistance = rs1.getDouble("resistance");
-            Double speed = rs1.getDouble("speed");
-            String type = rs1.getString("type");
-            Long cardId = rs1.getLong("idCard");
-            Duck d = factory.getDuck(DuckType.valueOf(type.toUpperCase()), username, email, password);
+            String username = rs1.getString("username");
+            String email = rs1.getString("email");
+            String password = rs1.getString("password");
+            Duck d = factory.getDuck(type, username, email, password);
             d.setType(type);
             d.setResistance(resistance);
             d.setSpeed(speed);
@@ -58,9 +57,17 @@ public class DuckRepo implements PagingRepository<Long, Duck> {
         return 0;
     }
 
+    public int count(){
+        try(Connection conn = DriverManager.getConnection(url, username, password)){
+            return count(conn);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private List<Duck> findAllOnPage(Connection conn, Pageable pageable) throws SQLException {
         List<Duck> ducks = new ArrayList<>();
-        String sql = "select * from \"User\" limit ? offset ?";
+        String sql = "select * from \"Duck\" limit ? offset ?";
         var stmt = conn.prepareStatement(sql);
         stmt.setInt(1, pageable.getPageSize());
         stmt.setInt(2, pageable.getPageSize() * pageable.getPageNumber());
@@ -84,7 +91,7 @@ public class DuckRepo implements PagingRepository<Long, Duck> {
     @Override
     public Optional<Duck> find(Long ID) {
         try (Connection conn = DriverManager.getConnection(url, username, password)){
-            var stmt = conn.prepareStatement("select * from \"User\" where id = ?");
+            var stmt = conn.prepareStatement("select * from \"Duck\" where id = ?");
             stmt.setLong(1, ID);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -118,7 +125,7 @@ public class DuckRepo implements PagingRepository<Long, Duck> {
             var stmt = conn.prepareStatement("delete from \"Duck\" where id = ?");
             stmt.setLong(1, ID);
             var rez = stmt.executeUpdate();
-            var stmt1 = conn.prepareStatement("select * from \"User\" where id = ?");
+            var stmt1 = conn.prepareStatement("delete from \"User\" where id = ?");
             stmt1.setLong(1, ID);
             var rez1 = stmt1.executeUpdate();
             if(rez > 0 && rez1 > 0)
@@ -132,23 +139,26 @@ public class DuckRepo implements PagingRepository<Long, Duck> {
     @Override
     public Optional<Duck> add(Duck entity) {
         try (Connection conn = DriverManager.getConnection(url, username, password)){
-            var stmt = conn.prepareStatement("INSERT INTO \"User\" (username, email, password) VALUES (?, ?, ?)",
+            var stmt = conn.prepareStatement("INSERT INTO \"User\" (username, email, password, type) VALUES (?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, entity.getUsername());
             stmt.setString(2, entity.getEmail());
             stmt.setString(3, entity.getPassword());
+            stmt.setString(4, entity.getUserType());
             var rez = stmt.executeUpdate();
             ResultSet rs =  stmt.getGeneratedKeys();
-            long id = rs.getLong("id");
-            var stmt1 = conn.prepareStatement("INSERT INTO \"Duck\" VALUES (?,?,?,?,?)");
-            stmt1.setLong(1, id);
-            stmt1.setString(2, entity.getType());
-            stmt1.setDouble(3, entity.getResistance());
-            stmt1.setDouble(4, entity.getSpeed());
-            stmt1.setLong(5, entity.getCardId());
-            var rez1 = stmt1.executeUpdate();
-            if(rez > 0 && rez1 > 0)
-                return Optional.of(entity);
+            if(rs.next()) {
+                long id = rs.getLong("id");
+                var stmt1 = conn.prepareStatement("INSERT INTO \"Duck\" VALUES (?,?,?,?,?)");
+                stmt1.setLong(1, id);
+                stmt1.setString(2, String.valueOf(entity.getType()));
+                stmt1.setDouble(3, entity.getResistance());
+                stmt1.setDouble(4, entity.getSpeed());
+                stmt1.setLong(5, entity.getCardId());
+                var rez1 = stmt1.executeUpdate();
+                if (rez > 0 && rez1 > 0)
+                    return Optional.of(entity);
+            }
             return Optional.empty();
         } catch (SQLException e) {
             throw new RuntimeException(e);
