@@ -7,6 +7,8 @@ module com.org.example {
     requires org.postgresql.jdbc;
     requires static lombok;
     requires javafx.graphics;
+    requires java.desktop;
+    requires jbcrypt;
 
     opens com.org.example to javafx.fxml;
     exports com.org.example;

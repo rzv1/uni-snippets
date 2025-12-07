@@ -1,5 +1,6 @@
 package com.org.example.domain;
 
+import com.org.example.factory.UserType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,6 @@ public abstract class User extends Entity<Long> {
         return Long.toString(getId()) + " | " + getUsername() + ", "+ getUserType();
     }
 
-    public abstract String getUserType();
+    public abstract UserType getUserType();
 
 }

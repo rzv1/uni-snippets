@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.control.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.org.example.controller.MessageBoxController">
+   <center>
+      <ListView fx:id="messagesList" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+      <VBox alignment="CENTER" prefHeight="326.0" prefWidth="158.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="CHATS" />
+            <ListView fx:id="chatsList" prefHeight="373.0" prefWidth="158.0" />
+         </children>
+      </VBox>
+   </left>
+   <bottom>
+      <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="512.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="loggedLabel" prefHeight="51.0" prefWidth="158.0" text="Replying to Buna ce faci cum mai este viata?" wrapText="true">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+            <TextField fx:id="messageField" prefHeight="26.0" prefWidth="282.0">
+               <HBox.margin>
+                  <Insets left="4.0" right="10.0" />
+               </HBox.margin>
+            </TextField>
+            <Button mnemonicParsing="false" onAction="#onSendClick" text="Send" />
+         </children>
+      </HBox>
+   </bottom>
+   <top>
+      <HBox alignment="CENTER_RIGHT" prefHeight="34.0" prefWidth="512.0" spacing="15.0" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="34.0" prefWidth="146.0">
+               <children>
+                  <Button layoutX="12.0" layoutY="4.0" mnemonicParsing="false" onAction="#onBackClick" prefHeight="26.0" prefWidth="138.0" text="Back" />
+               </children>
+            </Pane>
+            <TextField fx:id="chatNameField" prefHeight="27.0" prefWidth="73.0" promptText="chat name" />
+            <CheckComboBox fx:id="usersComboBox" prefHeight="21.0" prefWidth="200.0" showCheckedCount="true" title="Start a new chat" />
+            <Button mnemonicParsing="false" onAction="#onGoClick" text="Go">
+               <HBox.margin>
+                  <Insets right="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </top>
+</BorderPane>

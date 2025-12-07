@@ -144,7 +144,7 @@ public class DuckRepo implements PagingRepository<Long, Duck> {
             stmt.setString(1, entity.getUsername());
             stmt.setString(2, entity.getEmail());
             stmt.setString(3, entity.getPassword());
-            stmt.setString(4, entity.getUserType());
+            stmt.setString(4, String.valueOf(entity.getUserType()));
             var rez = stmt.executeUpdate();
             ResultSet rs =  stmt.getGeneratedKeys();
             if(rs.next()) {

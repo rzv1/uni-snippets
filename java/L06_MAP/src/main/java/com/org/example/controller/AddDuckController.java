@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class AddDuckController {
     private DuckService service;
@@ -19,7 +20,7 @@ public class AddDuckController {
     @FXML ComboBox<Long> cardIdBox;
 
     @FXML private void onAddClick(){
-        service.add(usernameField.getText(), emailField.getText(), passwordField.getText(), typeBox.getValue(),
+        service.add(usernameField.getText(), emailField.getText(), BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt()), typeBox.getValue(),
                 Double.parseDouble(speedField.getText()), Double.parseDouble(resistanceField.getText()), cardIdBox.getValue());
         if(stage != null)
             stage.close();

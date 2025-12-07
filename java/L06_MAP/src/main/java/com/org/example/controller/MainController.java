@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -13,6 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainController {
+    private UserService userService;
     private DuckService duckService;
     private PersonService personService;
     private EventService eventService;
@@ -22,7 +24,8 @@ public class MainController {
     @FXML private StackPane contentPane;
     @FXML private Label contentLabel;
 
-    public void setService(DuckService dService, PersonService pService, FriendshipService fService, CardService cService, EventService eService, Stage stage) {
+    public void setService(UserService uService, DuckService dService, PersonService pService, FriendshipService fService, CardService cService, EventService eService, Stage stage) {
+        userService = uService;
         duckService = dService;
         personService = pService;
         friendshipService = fService;
@@ -33,6 +36,17 @@ public class MainController {
 
     @FXML
     public void initialize(){}
+
+    @FXML
+    private void onLoginClick() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/org/example/login-view.fxml"));
+        Parent page = loader.load();
+        LoginController controller = loader.getController();
+        Stage newStage = new Stage();
+        newStage.setScene(new Scene(page));
+        controller.setService(userService, personService, newStage);
+        newStage.show();
+    }
 
     @FXML
     private void onFriendshipClick(ActionEvent event) throws IOException {

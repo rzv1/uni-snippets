@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class AddPersonController {
     private PersonService service;
@@ -19,7 +20,7 @@ public class AddPersonController {
     @FXML private TextField empathyField;
 
     @FXML private void onAddClick(){
-        service.add(usernameField.getText(),emailField.getText(), passwordField.getText(),
+        service.add(usernameField.getText(),emailField.getText(), BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt()),
                 firstNameField.getText(), lastNameField.getText(), birthday.getValue(),
                 occupationField.getText(), Long.parseLong(empathyField.getText()));
         if(stage != null)

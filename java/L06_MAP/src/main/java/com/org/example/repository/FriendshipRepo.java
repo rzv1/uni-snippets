@@ -1,13 +1,13 @@
 package com.org.example.repository;
 
 import com.org.example.domain.Friendship;
+import com.org.example.domain.Request;
+import com.org.example.domain.RequestType;
+import com.org.example.domain.User;
 import com.org.example.util.paging.Page;
 import com.org.example.util.paging.Pageable;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -127,6 +127,117 @@ public class FriendshipRepo implements PagingRepository<Long, Friendship>{
             List<Friendship> friendships = findAllOnPage(conn, pageable);
             int totalNumber = count(conn);
             return new Page<>(friendships, totalNumber);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Long> getFriends(Long userId){
+        try (Connection conn = DriverManager.getConnection(url, username, password)) {
+            List<Long> ids = new ArrayList<>();
+            var stmt = conn.prepareStatement("SELECT * from \"Friendship\" where \"idUser1\" = ? or \"idUser2\" = ?");
+            stmt.setLong(1, userId);
+            stmt.setLong(2, userId);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Long user1Id = rs.getLong("idUser1");
+                Long user2Id = rs.getLong("idUser2");
+                if(!user1Id.equals(userId))
+                    ids.add(user1Id);
+                else
+                    ids.add(user2Id);
+            }
+            return ids;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addRequest(Long fromUserId, Long toUserId, RequestType status){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            var stmt = conn.prepareStatement("INSERT INTO \"FriendRequest\" (\"fromUser\", \"toUser\", status) VALUES (?,?,?)");
+            stmt.setLong(1, fromUserId);
+            stmt.setLong(2, toUserId);
+            stmt.setString(3, String.valueOf(status));
+            if(stmt.executeUpdate() < 1){
+                throw new RuntimeException("Request add error");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Request> getRequests(Long forUserId){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            List<Request> requests = new ArrayList<>();
+            var stmt = conn.prepareStatement("SELECT * FROM \"FriendRequest\" where \"toUser\" = ?");
+            stmt.setLong(1, forUserId);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                Long id = rs.getLong("id");
+                Long fromUserId = rs.getLong("fromUser");
+                RequestType status = RequestType.valueOf(rs.getString("Status"));
+                Request request = new Request(fromUserId, forUserId, status);
+                request.setId(id);
+                requests.add(request);
+            }
+            return requests;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateRequest(Long id, RequestType status){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            var stmt = conn.prepareStatement("UPDATE \"FriendRequest\" SET status = ? where id = ?");
+            stmt.setLong(2, id);
+            stmt.setString(1, String.valueOf(status));
+            if(stmt.executeUpdate() < 1){
+                throw new RuntimeException("Update fail");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void acceptRequest(Long id){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            var stmt = conn.prepareStatement("SELECT * FROM \"FriendRequest\" where id = ?");
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            Long toUserId = rs.getLong("toUser");
+            Long fromUserId = rs.getLong("fromUser");
+            add(new Friendship(toUserId, fromUserId));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int countActiveRequests(Long userId){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            var stmt = conn.prepareStatement("SELECT COUNT(*) as count FROM \"FriendRequest\" where \"toUser\" = ? AND status LIKE ?");
+            stmt.setLong(1, userId);
+            stmt.setString(2, String.valueOf(RequestType.PENDING));
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            return rs.getInt("count");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeFriend(Long user1Id, Long user2Id){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            var stmt = conn.prepareStatement("DELETE FROM \"Friendship\" " +
+                    "where (\"idUser1\" = ? and \"idUser2\" = ?) or (\"idUser1\" = ? and \"idUser2\" = ?)");
+            stmt.setLong(1, user1Id);
+            stmt.setLong(2, user2Id);
+            stmt.setLong(3, user2Id);
+            stmt.setLong(4, user1Id);
+            if(stmt.executeUpdate() < 1){
+                throw new RuntimeException("friendship delete error");
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

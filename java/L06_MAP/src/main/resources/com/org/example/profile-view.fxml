@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="233.0" prefWidth="462.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.org.example.controller.ProfileController">
+   <top>
+      <HBox alignment="CENTER" prefHeight="56.0" prefWidth="426.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="PROFILE VIEWER">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="175.0" prefWidth="403.0">
+               <children>
+                  <Circle fill="#2186ff52" radius="63.0" stroke="BLACK" strokeMiterLimit="4.0" strokeType="INSIDE" />
+                  <VBox alignment="CENTER_LEFT" prefHeight="175.0" prefWidth="156.0" spacing="2.0">
+                     <children>
+                        <Label fx:id="nameLabel" text="John Wick" textFill="#0044ffcb">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="usernameLabel" text="\@IamJohn" textFill="#0324ff80">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="connectionsLabel" text="x connections">
+                           <VBox.margin>
+                              <Insets left="15.0" top="15.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </VBox>
+                  <HBox alignment="TOP_CENTER" prefHeight="124.0" prefWidth="139.0" spacing="15.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onMessageClick" text="Message" />
+                        <Button mnemonicParsing="false" onAction="#onAddClick" text="Add" />
+                     </children>
+                     <HBox.margin>
+                        <Insets top="25.0" />
+                     </HBox.margin>
+                     <padding>
+                        <Insets top="25.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="25.0" right="25.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

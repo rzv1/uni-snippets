@@ -3,6 +3,7 @@ package com.org.example.domain.duck;
 import com.org.example.domain.User;
 import com.org.example.domain.card.Card;
 import com.org.example.factory.DuckType;
+import com.org.example.factory.UserType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,8 +27,8 @@ public abstract class Duck extends User {
     }
 
     @Override
-    public String getUserType() {
-        return "duck";
+    public UserType getUserType() {
+        return UserType.DUCK;
     }
 
     public abstract Card<? extends Duck> getCard(String name, List<Duck> members);

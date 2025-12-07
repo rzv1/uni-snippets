@@ -1,5 +1,6 @@
 package com.org.example.domain;
 
+import com.org.example.factory.UserType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +30,7 @@ public class Person extends User{
     }
 
     @Override
-    public String getUserType(){
-        return "person";
+    public UserType getUserType(){
+        return UserType.PERSON;
     }
 }

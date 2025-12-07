@@ -16,15 +16,12 @@ import java.util.*;
 
 public class FriendshipService {
     private final FriendshipRepo fRepo;
-    private final DuckRepo duckRepo;
-    private final PersonRepo personRepo;
-    private final FriendshipValidator validator;
+    private final UserService service;
+    private final FriendshipValidator validator = new FriendshipValidator();
 
-    public FriendshipService (FriendshipRepo fRepo, DuckRepo duckRepo, PersonRepo personRepo, FriendshipValidator validator){
+    public FriendshipService(FriendshipRepo fRepo, UserService service) {
         this.fRepo = fRepo;
-        this.duckRepo = duckRepo;
-        this.personRepo = personRepo;
-        this.validator = validator;
+        this.service = service;
     }
 
     public Optional<Friendship> add(User user1, User user2) {
@@ -56,14 +53,7 @@ public class FriendshipService {
     }
 
     public List<User> getUsers(){
-        List<User> users = new ArrayList<>();
-        List<Duck> ducks = (List<Duck>) duckRepo.getAll();
-        List<Person> people = (List<Person>) personRepo.getAll();
-        if(!ducks.isEmpty())
-            users.addAll(ducks);
-        if(!people.isEmpty())
-            users.addAll(people);
-        return users;
+        return service.getUsers(null);
     }
 
     public int getCount(){

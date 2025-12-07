@@ -38,6 +38,7 @@ javafx {
 dependencies {
     implementation("org.controlsfx:controlsfx:11.2.1")
     implementation("org.postgresql:postgresql:42.7.3")
+    implementation("org.mindrot:jbcrypt:0.4")
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     compileOnly("org.projectlombok:lombok:1.18.42")

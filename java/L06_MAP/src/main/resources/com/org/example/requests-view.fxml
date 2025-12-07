@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="391.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.org.example.controller.RequestsController">
+   <top>
+      <Label prefHeight="54.0" prefWidth="81.0" text="REQUESTS" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+   </top>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="63.0" prefWidth="391.0" spacing="35.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onAcceptClick" text="Accept" />
+            <Button mnemonicParsing="false" onAction="#onDeclineClick" text="Decline" />
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <ListView fx:id="requestsList" prefHeight="217.0" prefWidth="391.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>

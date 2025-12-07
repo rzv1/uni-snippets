@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="327.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.org.example.controller.UserPageController">
+   <children>
+      <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="398.0" spacing="20.0">
+         <children>
+            <Label fx:id="welcomeLabel" prefHeight="22.0" prefWidth="199.0" text="Welcome, user">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#onProfileClick" text="Profile" />
+            <Button mnemonicParsing="false" onAction="#onSendFRClick" text="Send FR" />
+         </children>
+      </HBox>
+      <GridPane prefHeight="195.0" prefWidth="398.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="118.0" minHeight="0.0" prefHeight="26.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="171.0" minHeight="0.0" prefHeight="169.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="FRIENDS" />
+            <Label text="EXPLORER" GridPane.columnIndex="1" />
+            <ListView fx:id="friendsList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <ListView fx:id="explorerList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <Label fx:id="requestsLabel" contentDisplay="CENTER" prefHeight="17.0" prefWidth="173.0" text="You have x new friend requests">
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="46.0" prefWidth="398.0" spacing="30.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#onChatClick" prefHeight="36.0" prefWidth="62.0" text="Chat" />
+            <Button mnemonicParsing="false" onAction="#onRemoveClick" text="Remove friend" />
+            <Button mnemonicParsing="false" onAction="#onRequestsClick" text="Requests" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

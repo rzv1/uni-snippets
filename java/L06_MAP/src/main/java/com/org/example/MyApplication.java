@@ -23,22 +23,24 @@ public class MyApplication extends Application {
 
         DuckFactory duckFactory = new DuckFactory();
 
+        UserRepo uRepo = new UserRepo(url, username, password);
         DuckRepo dRepo = new DuckRepo(url, username, password, duckFactory);
         PersonRepo pRepo = new PersonRepo(url, username, password);
         FriendshipRepo fRepo = new FriendshipRepo(url, username, password);
         CardRepo cRepo = new CardRepo(url, username, password);
         EventRepo eRepo = new EventRepo(url, username, password);
 
+        UserService uService = new UserService(uRepo, dRepo, pRepo, fRepo);
         DuckService dService = new DuckService(dRepo, cRepo, duckFactory, new DuckValidator());
         PersonService pService = new PersonService(pRepo, new PersonValidator());
-        FriendshipService fService = new FriendshipService(fRepo, dRepo, pRepo, new FriendshipValidator());
+        FriendshipService fService = new FriendshipService(fRepo, uService);
         CardService cService = new CardService(dRepo, cRepo, new CardFactory(), new CardValidator());
         EventService eService = new EventService(dRepo, eRepo, new RaceEventValidator());
 
         FXMLLoader loader = new FXMLLoader(MyApplication.class.getResource("main-view.fxml"));
         Parent root = loader.load();
         MainController controller = loader.getController();
-        controller.setService(dService, pService, fService, cService, eService, stage);
+        controller.setService(uService, dService, pService, fService, cService, eService, stage);
 
         Scene scene = new Scene(root, 820, 540);
         stage.setTitle("Ducks!");

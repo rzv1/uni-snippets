@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="296.0" prefWidth="238.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.org.example.controller.LoginController">
+   <children>
+      <Label alignment="CENTER" text="wilkommen!">
+         <font>
+            <Font size="23.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="30.0" />
+         </VBox.margin>
+      </Label>
+      <Pane prefHeight="60.0" prefWidth="180.0">
+         <children>
+            <Label layoutX="28.0" layoutY="6.0" text="Username" />
+            <TextField fx:id="usernameField" layoutX="28.0" layoutY="30.0" prefHeight="28.0" prefWidth="181.0" />
+         </children>
+      </Pane>
+      <Pane layoutX="10.0" layoutY="194.0" prefHeight="60.0" prefWidth="180.0">
+         <children>
+            <Label layoutX="29.0" layoutY="6.0" text="Password" />
+            <TextField fx:id="passwordField" layoutX="28.0" layoutY="30.0" prefHeight="28.0" prefWidth="181.0" />
+         </children>
+      </Pane>
+      <Label fx:id="errorLabel">
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#onLoginClick" prefHeight="32.0" prefWidth="183.0" text="Login">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Button>
+   </children>
+</VBox>
