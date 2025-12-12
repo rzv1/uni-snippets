@@ -119,7 +119,7 @@ public class MessageBoxController implements Observer<EntityChangeEvent<Chat>> {
                            loggedLabel.setText("Replying to " + newVal.getMessage());
                        }
                        else{
-                           replyToId = 0L;
+                           replyToId = null;
                            initLabel();
                        }
                    }
@@ -130,8 +130,7 @@ public class MessageBoxController implements Observer<EntityChangeEvent<Chat>> {
         List<Long> users = new java.util.ArrayList<>(usersComboBox.getCheckModel().getCheckedItems().stream().map(Entity::getId).toList());
         users.add(myUser.getId());
         if(users.size() == 2){
-            String userUsername = usersComboBox.getCheckModel().getCheckedItems().get(0).getUsername();
-            service.addChat(userUsername, users);
+            service.addChat("", users);
         }
         else if(chatNameField.getText().isEmpty())
             service.addChat("Group chat", users);
@@ -144,6 +143,8 @@ public class MessageBoxController implements Observer<EntityChangeEvent<Chat>> {
     @FXML private void onSendClick(){
         service.addMessage(messageField.getText(), selectedChatId, myUser.getId(), replyToId);
         messageField.clear();
+        replyToId = null;
+        initLabel();
     }
 
     @FXML private void onBackClick() throws IOException {
@@ -169,6 +170,7 @@ public class MessageBoxController implements Observer<EntityChangeEvent<Chat>> {
 
     private void initModel(){
         List<Chat> chats = service.getChats(myUser);
+        chats.forEach(c -> {if(Objects.equals(c.getName(), "")) c.setName(service.getOtherUsername(c.getId(), myUser));});
         ObservableList<Chat> observable = FXCollections.observableArrayList(chats);
         chatsList.setItems(observable);
         chatsList.getSelectionModel().clearSelection();
@@ -185,9 +187,9 @@ public class MessageBoxController implements Observer<EntityChangeEvent<Chat>> {
 
     @Override
     public void update(EntityChangeEvent<Chat> chatEntityChangeEvent) {
-        if(chatEntityChangeEvent.getType().equals(EntityChangeEventType.MESSAGE_ADD))
+        if(chatEntityChangeEvent.getType().equals(EntityChangeEventType.MESSAGE_ADD) && selectedChatId != null)
             initMessages();
-        else
+        else if(chatEntityChangeEvent.getType().equals(EntityChangeEventType.CHAT_ADD))
             initModel();
     }
 }

@@ -61,6 +61,12 @@ public class UserService implements Observable<EntityChangeEvent<Chat>> {
         return (List<Chat>) repo.getChats(forThisUser);
     }
 
+    public String getOtherUsername(Long id, User myUser){
+        List<User> users = new ArrayList<>(((List<Long>) repo.getChatMembers(id)).stream().map(this::find).toList());
+        users.remove(myUser);
+        return users.get(0).getUsername();
+    }
+
     public List<Message> getMessages(Long chatId){
         return (List<Message>) repo.getMessages(chatId);
     }

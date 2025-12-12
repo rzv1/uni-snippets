@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 public class Chat extends Entity<Long> {
-    private final String name;
+    private String name;
     private List<Message> messages;
 
     public Chat(String name, List<Message> messages) {

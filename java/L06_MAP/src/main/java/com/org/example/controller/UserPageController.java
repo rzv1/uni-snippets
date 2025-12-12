@@ -1,11 +1,14 @@
 package com.org.example.controller;
 
+import com.org.example.domain.Chat;
 import com.org.example.domain.Person;
 import com.org.example.domain.User;
 import com.org.example.domain.duck.Duck;
 import com.org.example.factory.UserType;
+import com.org.example.observer.Observer;
 import com.org.example.service.PersonService;
 import com.org.example.service.UserService;
+import com.org.example.util.event.EntityChangeEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,7 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class UserPageController {
+public class UserPageController implements Observer<EntityChangeEvent<Chat>> {
     private User myUser;
     private UserService service;
     private PersonService pService;
@@ -135,6 +138,11 @@ public class UserPageController {
         initLabels();
     }
 
+    private void initModelUpdate(){
+        friendsList.getItems().setAll(service.getFriends(myUser));
+        initLabels();
+    }
+
     private void initLabels(){
         welcomeLabel.setText("Welcome, " + myUser.getUsername());
         int count = service.countActiveRequests(myUser);
@@ -147,8 +155,14 @@ public class UserPageController {
     public void setService(User u, UserService srv, PersonService pSrv, Stage stage){
         myUser = u;
         service = srv;
+        service.addObserver(this);
         pService = pSrv;
         this.stage = stage;
         initModel();
+    }
+
+    @Override
+    public void update(EntityChangeEvent<Chat> chatEntityChangeEvent) {
+        initModelUpdate();
     }
 }

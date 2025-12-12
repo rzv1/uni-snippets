@@ -4,6 +4,8 @@ import com.org.example.factory.UserType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 public abstract class User extends Entity<Long> {
@@ -24,4 +26,15 @@ public abstract class User extends Entity<Long> {
 
     public abstract UserType getUserType();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User u)) return false;
+        return Objects.equals(username, u.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, password);
+    }
 }

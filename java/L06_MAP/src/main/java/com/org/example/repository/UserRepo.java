@@ -134,6 +134,21 @@ public class UserRepo {
         }
     }
 
+    public Iterable<Long> getChatMembers(Long chatId){
+        try (Connection conn = DriverManager.getConnection(url, username, password)){
+            List<Long> users = new ArrayList<>();
+            var stmt = conn.prepareStatement("SELECT * FROM \"ChatUser\" where \"idChat\" = ?");
+            stmt.setLong(1, chatId);
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next()){
+                users.add(rs.getLong("idUser"));
+            }
+            return users;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Iterable<Message> getMessages(Long idChat){
         try (Connection conn = DriverManager.getConnection(url, username, password)){
             var stmt1 = conn.prepareStatement("SELECT * FROM \"Message\" where \"idChat\" = ?");

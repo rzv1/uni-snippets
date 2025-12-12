@@ -25,7 +25,7 @@ public class UserFactory {
                     Double resistance = rs1.getDouble("rezistenta");
                     Double speed = rs1.getDouble("viteza");
                     DuckType duckType = DuckType.valueOf(rs1.getString("type"));
-                    Long cardId = rs1.getLong("cardId");
+                    Long cardId = rs1.getLong("idCard");
                     var duck =  duckFactory.getDuck(duckType, username, email, password);
                     duck.setResistance(resistance);
                     duck.setSpeed(speed);
