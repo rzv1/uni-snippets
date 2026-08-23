@@ -18,10 +18,10 @@ int main(int argc, char** argv){
                 perror("socket creation");
                 return 1;
         }
-		if(argc != 3){
-			printf("Incorrect usage");
-			return 1;
-		}
+        if(argc != 3){
+                printf("Incorrect usage");
+                return 1;
+        }
 
         memset(&server, 0, sizeof(server));
         server.sin_family = AF_INET;
@@ -29,8 +29,8 @@ int main(int argc, char** argv){
         server.sin_addr.s_addr = inet_addr(argv[1]);
 
         if (connect(c, (struct sockaddr *) &server, sizeof(server)) < 0){
-                perror("connection error");
-                return 1;
+            perror("connection error");
+            return 1;
         }
 
         uint16_t n, m, k;

@@ -1,5 +1,3 @@
-// Un client trimite unui server un sir de caractere si doua numere (fie acestea s, i, l). Serverul va returna clientului subsirul de lungime l a lui s care incepe la pozitia i.
-
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -10,6 +8,8 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 
+// Un client trimite unui server un sir de caractere si doua numere (fie acestea s, i, l). 
+// Serverul va returna clientului subsirul de lungime l a lui s care incepe la pozitia i.
 int main() {
 	char* s;
 	int c;

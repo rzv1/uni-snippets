@@ -12,8 +12,8 @@ int main(){
 	struct sockaddr_in s;
 	int c;
 
-	// Al treilea argument (protocolul) se specifica doar daca domeniul(primul argument) accepta mai multe tiprui
-	// de protocoale.
+	// Al treilea argument (protocolul) se specifica doar daca domeniul(primul argument)
+	//  accepta mai multe tiprui de protocoale.
 	c = socket(AF_INET, SOCK_STREAM, 0);
 	if (c < 0)
 		perror("socket creation");
