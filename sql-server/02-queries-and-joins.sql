@@ -1,4 +1,5 @@
-﻿CREATE DATABASE Parc;
+﻿
+CREATE DATABASE Parc;
 Go
 USE Parc;
 Go
