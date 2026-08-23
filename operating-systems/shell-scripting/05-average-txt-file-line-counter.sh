@@ -9,9 +9,10 @@ for f in `ls | grep -E ".*\.txt$"`; do
 	nrLines=`cat $f | wc -l`
 	totalNrLines=$(($nrLines + $totalNrLines))
 done
-	if [ $nrFiles -gt 0 ]; then
-	result=$(($totalNrLines / $nrFiles))
-	echo "Average is $result"
-	else
-		echo "Nu exista fisiere .txt"
-	fi
+	
+if [ $nrFiles -gt 0 ]; then
+result=$(($totalNrLines / $nrFiles))
+echo "Average is $result"
+else
+	echo "Nu exista fisiere .txt"
+fi

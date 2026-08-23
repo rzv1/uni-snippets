@@ -1,6 +1,8 @@
 #!/bin/bash
+
 nr_txt=0
 nr_dir=0
+
 for f in $(find 'pwd' -type f); do
 	if [ $f == *.txt ]; then
 		echo $f is a txt file
