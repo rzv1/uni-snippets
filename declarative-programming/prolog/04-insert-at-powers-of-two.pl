@@ -1,8 +1,4 @@
 
-
-
-
-
 main_adaugare(L, V, Rez):-adaugare(L, 1, 1, V, Rez).
 adaugare([], _, _, _, []):-!.
 
