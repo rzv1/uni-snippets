@@ -18,8 +18,8 @@ segment data use32 class=data
 ; our code starts here
 segment code use32 class=code
     start:
-        ; Se da un sir de octeti s de lungime l. Sa se construiasca sirul g de lungime l-1 a.i. el lui d reprezinta catul dintre fiecare 
-        ;    doua el consecutive si si si+1 din s.
+        ; Se da un sir de octeti s de lungime l. Sa se construiasca sirul g de lungime l-1 a.i. 
+        ; el lui d reprezinta catul dintre fiecare doua el consecutive s_i si s_i+1 din s.
         ; s: 1,5,2,8,4
         ; g: 0,2,0,2
         ; esi - index pentru sursa , edi - index pentru destinatie
@@ -27,12 +27,12 @@ segment code use32 class=code
         mov esi, 0
         jecxz sfarsit
         repeta:
-        mov al, [s + esi]
-        mov bl, [s + esi + 1]
-        mov ah, 0
-        div bl ; al = ax / bl
-        mov [d + esi], al
-        inc esi
+            mov al, [s + esi]
+            mov bl, [s + esi + 1]
+            mov ah, 0
+            div bl ; al = ax / bl
+            mov [d + esi], al
+            inc esi
         loop repeta
         sfarsit:
         ; exit(0)

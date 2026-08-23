@@ -20,6 +20,8 @@ segment data use32 class=data
     text times len db 0
     format db "Valoarea este: %u", 0
     
+; program that counts odd ascii codes stored in the file pb4.txt
+; the program is 32-bit and uses nasm syntax
 ; our code starts here
 segment code use32 class=code
     start:
