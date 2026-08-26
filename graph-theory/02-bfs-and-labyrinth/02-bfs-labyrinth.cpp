@@ -7,7 +7,6 @@
 
 using std::cin;
 using std::ifstream;
-using std::min;
 using std::pair;
 using std::queue;
 using std::string;
